@@ -23,6 +23,6 @@ export const fetchFriends = () => dispatch => {
         .then(res => res.json())
         .then(friendsData => dispatch({
             type: FETCH_FRIENDS,
-            payload: userData.data.friends
+            payload: friendsData.data.friends
         }));
 };

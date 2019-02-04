@@ -2,7 +2,10 @@ import { FETCH_FRIENDS } from '../actions/types';
 
 const initialState = {
     items: [],
-    item: {}
+    item: {},
+    friends: {
+        items: []
+    }
 };
 
 export default function (state = initialState, action) {
@@ -10,7 +13,9 @@ export default function (state = initialState, action) {
         case FETCH_FRIENDS:
             return {
                 ...state,
-                items: action.payload
+                friends: {
+                    items: action.payload
+                }
             };
 
         default:

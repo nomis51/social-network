@@ -2,16 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { createMessage } from '../../redux/actions/messageActions';
+import { fetchFriends } from '../../redux/actions/userActions';
 
 import './FriendList.css';
 
 class FriendList extends Component {
-    render() {
-        return (
-           <div className="friend-list">
+    componentWillMount() {
+        this.props.fetchFriends();
+    }
 
-           </div>
+    render() {
+        const friends = this.props.friends.map((f, i) => {
+            return (
+                <div className="friend-item" key={f._id}>
+                    {f.firstName} {f.lastName}
+                </div>
+            );
+        });
+        return (
+            <div className="friend-list">
+                {friends}
+            </div>
         );
     }
 }
@@ -21,7 +32,7 @@ FriendList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    friends: state.items
+    friends: state.users.friends.items
 });
 
 export default connect(mapStateToProps, { fetchFriends })(FriendList);

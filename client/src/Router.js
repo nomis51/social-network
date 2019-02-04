@@ -8,6 +8,7 @@ import LoginPage from './pages/Login/Login';
 import MessagesPage from './pages/Messages/Messages';
 import SignUpPage from './pages/SignUp/SignUp';
 import PostsPage from './pages/Posts/Posts';
+import FriendList from './components/FriendList/FriendList';
 
 class Router extends Component {
     render() {
@@ -30,6 +31,7 @@ class Router extends Component {
                             </Switch>
                         </React.Fragment>
                     </main>
+                    {this.props.auth.token && <FriendList />}
                 </React.Fragment>
             </BrowserRouter>
         );

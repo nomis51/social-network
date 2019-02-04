@@ -362,5 +362,5 @@ test('login(): Should not login successfully', () => {
 });
 
 test('getFriends(): ', ()=>{
-
+    
 });

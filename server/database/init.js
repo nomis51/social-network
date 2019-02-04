@@ -122,7 +122,11 @@
                     creationTime: "2019-01-01 15:19:12",
                     isDeleted: false
                 }),
-                (sarah)-[:WROTE]->(p3)
+                (sarah)-[:WROTE]->(p3),
+                (sarah)-[:FRIEND]->(bob),
+                (bob)-[:FRIEND]->(sarah),
+                (rocky)-[:FRIEND]->(sarah),
+                (sarah)-[:FRIEND]->(rocky)
                  `)
                     .subscribe({
                         onCompleted: () => {

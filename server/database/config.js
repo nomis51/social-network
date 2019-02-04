@@ -5,9 +5,9 @@ module.exports = {
         password: ''
     },
     dev: {
-        url: 'bolt://localhost:7687',
+        url: 'bolt://localhost:11007',
         username: 'neo4j',
-        password: '123'
+        password: 'pewpew123'
     },
     test: {
         url: '',

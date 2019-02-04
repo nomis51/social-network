@@ -194,7 +194,23 @@ const service = {
 
     getFriends: (user_id) => {
         return new Promise(resolve => {
-            resolve();
+            const session = db.getSession();
+            let friends = [];
+            return session.run(`MATCH (user:User {_id: "${user_id}"}), (friend:User) WHERE (user)-[:FRIEND]->(friend) RETURN friend`)
+                .subscribe({
+                    onNext: (record) => {
+                        const friend = db.parse(record, 'friend', ['isDeleted', 'password', 'creationTime']);
+                        friends.push(friend);
+                    },
+                    onCompleted: () => {
+                        session.close();
+                        resolve(friends);
+                    },
+                    onError: (err) => {
+                        console.log(err);
+                        throw err;
+                    }
+                });
         });
     }
 }

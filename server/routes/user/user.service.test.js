@@ -361,6 +361,42 @@ test('login(): Should not login successfully', () => {
         });
 });
 
-test('getFriends(): ', ()=>{
-    
+test('getFriends(): Should return an array', () => {
+    expect.assertions(1);
+    return userService.getFriends('a')
+        .then(data => {
+            expect(Array.isArray(data)).toBe(true);
+        });
+});
+
+test('getFriends(): Should return an array of one element', () => {
+    expect.assertions(1);
+    return userService.getFriends('a')
+        .then(data => {
+            expect(data.length).toBe(1);
+        });
+});
+
+test('getFriends(): Should return an array of one user with props firstName, lastName, email, _id', () => {
+    expect.assertions(4);
+    return userService.getFriends('a')
+        .then(data => {
+            const user = data[0];
+            expect(user.firstName).toBeTruthy();
+            expect(user.lastName).toBeTruthy();
+            expect(user.email).toBeTruthy();
+            expect(user._id).toBeTruthy();
+        });
+});
+
+test('getFriends(): Should return an array of one user with props with the following types: firstName (String), lastName(String), email(String), _id(String)', () => {
+    expect.assertions(4);
+    return userService.getFriends('a')
+        .then(data => {
+            const user = data[0];
+            expect(typeof user.firstName).toBe('string');
+            expect(typeof user.lastName).toBe('string');
+            expect(typeof user.email).toBe('string');
+            expect(typeof user._id).toBe('string');
+        });
 });

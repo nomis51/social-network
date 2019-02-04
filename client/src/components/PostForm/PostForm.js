@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import { createPost } from '../../redux/actions/postActions';
 
+import './PostForm.css';
+
 class PostForm extends Component {
     constructor(props) {
         super(props)

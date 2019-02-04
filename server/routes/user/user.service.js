@@ -190,6 +190,12 @@ const service = {
                     throw err;
                 });
         });
+    },
+
+    getFriends: (user_id) => {
+        return new Promise(resolve => {
+            resolve();
+        });
     }
 }
 

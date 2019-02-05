@@ -34,10 +34,11 @@ class PostForm extends Component {
     render() {
         return (
             <form className="post-form" onSubmit={this.onSubmit}>
+            <h3>Share a new post</h3>
                 <div className="form-control">
-                    <textarea name="content" value={this.state.content} onChange={this.onChange} />
+                    <textarea placeholder="Your post content here..." name="content" value={this.state.content} onChange={this.onChange} />
                 </div>
-                <div className="post-action">
+                <div className="form-action">
                     <button type="submit">Share</button>
                 </div>
             </form>

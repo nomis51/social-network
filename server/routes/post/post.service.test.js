@@ -81,25 +81,27 @@ test('getAll(): Should return an array', () => {
         });
 });
 
-test('getAll(): Should have properties: _id, content, creationTime, creator', () => {
-    expect.assertions(5);
+test('getAll(): Should have properties: _id, content, creationTime, lastUpdateTime, creator', () => {
+    expect.assertions(6);
     return postService.getAll()
         .then(data => {
             expect(data[0]._id).toBeTruthy();
             expect(data[0].content).toBeTruthy();
             expect(data[0].creationTime).toBeTruthy();
+            expect(data[0].lastUpdateTime).toBeTruthy();
             expect(data[0].creator).toBeTruthy();
             expect(data[0].isDeleted).toBeFalsy();
         });
 });
 
-test('getAll(): Should have properties with types: _id (String), content (String), creationTime (String), creator (Object)', () => {
-    expect.assertions(4);
+test('getAll(): Should have properties with types: _id (String), content (String), creationTime (String), lastUpdateTime (String), creator (Object)', () => {
+    expect.assertions(5);
     return postService.getAll()
         .then(data => {
             expect(typeof data[0]._id).toBe('string');
             expect(typeof data[0].content).toBe('string');
             expect(typeof data[0].creationTime).toBe('string');
+            expect(typeof data[0].lastUpdateTime).toBe('string');
             expect(typeof data[0].creator).toBe('object');
         });
 });
@@ -114,25 +116,27 @@ test('get(): Should return an array', () => {
         });
 });
 
-test('get(): Should have properties: _id, content, creationTime, creator', () => {
+test('get(): Should have properties: _id, content, creationTime, lastUpdateTime, creator', () => {
     expect.assertions(5);
     return postService.get()
         .then(data => {
             expect(data[0]._id).toBeTruthy();
             expect(data[0].content).toBeTruthy();
             expect(data[0].creationTime).toBeTruthy();
+            expect(data[0].lastUpdateTime).toBeTruthy();
             expect(data[0].creator).toBeTruthy();
             expect(data[0].isDeleted).toBeFalsy();
         });
 });
 
-test('get(): Should have properties with types: _id (String), content (String), creationTime (String), creator (Object)', () => {
+test('get(): Should have properties with types: _id (String), content (String), creationTime (String), lastUpdateTime (String), creator (Object)', () => {
     expect.assertions(4);
     return postService.get()
         .then(data => {
             expect(typeof data[0]._id).toBe('string');
             expect(typeof data[0].content).toBe('string');
             expect(typeof data[0].creationTime).toBe('string');
+            expect(typeof data[0].lastUpdateTime).toBe('string');
             expect(typeof data[0].creator).toBe('object');
         });
 });
@@ -189,13 +193,14 @@ test('getOne(): Should not return an array with query {}', () => {
         });
 });
 
-test('getOne(): Object should contain message model with properties: content, creator, creationTime', () => {
+test('getOne(): Object should contain message model with properties: content, creator, creationTime, lastUpdateTime', () => {
     expect.assertions(4);
     return postService.getOne({})
         .then(data => {
             expect(data.content).toBeTruthy();
             expect(data.creator).toBeTruthy();
             expect(data.creationTime).toBeTruthy();
+            expect(data.lastUpdateTime).toBeTruthy();
             expect(data.isDeleted).toBeUndefined();
         });
 });
@@ -207,6 +212,7 @@ test('getOne(): Array should contain message model with properties types: conten
             expect(typeof data.content).toBe('string');
             expect(typeof data.creator).toBe('object');
             expect(new Date(data.creationTime)).toBeTruthy();
+            expect(new Date(data.lastUpdateTime)).toBeTruthy();
         });
 });
 
@@ -320,6 +326,13 @@ test('delete(): Should not delete anything and reject an error', () => {
         });
 });
 
-test('getAll(): Should return posts sorted by lastUpdateTime', ()=>{
-
+test('getAll(): Should return posts sorted by lastUpdateTime', () => {
+    expect.assertions(1);
+    return postService.getAll()
+        .then(data => {
+            const sortedData = data.sort((a, b) => b.lastUpdateTime - a.lastUpdateTime);
+            console.log(sortedData)
+            console.log(data);
+            expect(sortedData).toEqual(data);
+        });
 });

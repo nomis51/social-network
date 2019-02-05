@@ -319,3 +319,7 @@ test('delete(): Should not delete anything and reject an error', () => {
             expect(err).toBeDefined();
         });
 });
+
+test('getAll(): Should return posts sorted by lastUpdateTime', ()=>{
+
+});

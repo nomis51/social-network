@@ -40,6 +40,7 @@ const Post = {
         };
 
         let validatedPost = Post.validate(post);
+        validatedPost.lastUpdateTime = validatedPost.creationTime;
 
         return validatedPost ? validatedPost : null;
     }

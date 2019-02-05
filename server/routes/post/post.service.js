@@ -83,7 +83,8 @@ const service = {
                 _id: "${post._id}",
                 content: "${post.content}",
                 isDeleted: ${post.isDeleted},
-                creationTime: "${post.creationTime}"
+                creationTime: "${post.creationTime}",
+                lastUpdateTime: "${post.lastUpdateTime}"
             }), (user)-[:WROTE]->(post) RETURN post, user`)
                 .subscribe({
                     onNext: (record) => {

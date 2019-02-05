@@ -18,8 +18,13 @@
 }
 
 .post {
-    margin: 1rem;
-    width: 30rem;
-    padding: 0.6rem;
+    margin-top: 1rem;
+    width: 44rem;
+    padding: 1rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.posts {
+    margin: 0;
+    padding: 0;
 }

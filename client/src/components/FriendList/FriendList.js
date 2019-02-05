@@ -14,14 +14,18 @@ class FriendList extends Component {
     render() {
         const friends = this.props.friends.map((f, i) => {
             return (
-                <div className="friend-item" key={f._id}>
-                    {f.firstName} {f.lastName}
-                </div>
+                <li className="friend" key={f._id}>
+                    <img src="https://www.shareicon.net/download/128x128//2015/10/14/656187_cat_512x512.png" alt={f.firstName + '\'s image'} />
+                    <p>{f.firstName} {f.lastName}</p>
+                </li>
             );
         });
         return (
-            <div className="friend-list">
-                {friends}
+            <div className="friends">
+                <h3>Friends</h3>
+                <ul className="friend-list">
+                    {friends}
+                </ul>
             </div>
         );
     }

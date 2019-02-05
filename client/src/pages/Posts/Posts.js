@@ -33,9 +33,9 @@ class PostsPage extends Component {
         });
 
         return (
-            <div>
+            <div className="posts">
                 <PostForm />
-                <ul className="posts">
+                <ul className="post-list">
                     {posts}
                 </ul>
             </div>

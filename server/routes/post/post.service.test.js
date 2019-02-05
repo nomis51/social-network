@@ -21,13 +21,15 @@ beforeEach(() => {
                             lastName: "Gino",
                             email: "bgino@gmail.com",
                             password: "${User.hashPassword('my#Love12')}",
-                            creationTime: "2019-01-01 15:00:00"
+                            creationTime: "2019-01-01 15:00:00",
+                            lastUpdateTime: "2019-01-02 15:14:56"
                         }),
                         (p1: Post {
                             _id: "b",
                             content: "This the content of my post",
                             isDeleted: false,
-                            creationTime: "2019-01-02 15:14:32"
+                            creationTime: "2019-01-02 15:03:32",
+                            lastUpdateTime: "2019-01-02 15:14:32"
                         }),
                         (p2: Post {
                             _id: "c",
@@ -117,7 +119,7 @@ test('get(): Should return an array', () => {
 });
 
 test('get(): Should have properties: _id, content, creationTime, lastUpdateTime, creator', () => {
-    expect.assertions(5);
+    expect.assertions(6);
     return postService.get()
         .then(data => {
             expect(data[0]._id).toBeTruthy();
@@ -130,7 +132,7 @@ test('get(): Should have properties: _id, content, creationTime, lastUpdateTime,
 });
 
 test('get(): Should have properties with types: _id (String), content (String), creationTime (String), lastUpdateTime (String), creator (Object)', () => {
-    expect.assertions(4);
+    expect.assertions(5);
     return postService.get()
         .then(data => {
             expect(typeof data[0]._id).toBe('string');
@@ -170,7 +172,7 @@ test('get(): Should return an array of two objects with query {creator: user(Bia
 
 test('get(): Should return an array of one object with query {creationTime: (Date)}', () => {
     expect.assertions(1);
-    const date = '2019-01-02 15:14:32';
+    const date = '2019-01-02 15:03:32';
     return postService.get({ creationTime: date })
         .then(data2 => {
             expect(data2.length).toBe(1);
@@ -194,7 +196,7 @@ test('getOne(): Should not return an array with query {}', () => {
 });
 
 test('getOne(): Object should contain message model with properties: content, creator, creationTime, lastUpdateTime', () => {
-    expect.assertions(4);
+    expect.assertions(5);
     return postService.getOne({})
         .then(data => {
             expect(data.content).toBeTruthy();
@@ -206,7 +208,7 @@ test('getOne(): Object should contain message model with properties: content, cr
 });
 
 test('getOne(): Array should contain message model with properties types: content (String), creator (User), creationTime (Date)', () => {
-    expect.assertions(3);
+    expect.assertions(4);
     return postService.getOne({})
         .then(data => {
             expect(typeof data.content).toBe('string');
@@ -243,7 +245,7 @@ test('getOne(): Should return a message from creator Bianca with query {creator:
 
 test('getOne(): Should return one object with query {creationTime: (creationTIme of Bianca 1st message)}', () => {
     expect.assertions(2);
-    const date = '2019-01-02 15:14:32';
+    const date = '2019-01-02 15:03:32';
     return postService.getOne({ creationTime: date })
         .then(data2 => {
             expect(data2).toBeDefined();
@@ -330,9 +332,18 @@ test('getAll(): Should return posts sorted by lastUpdateTime', () => {
     expect.assertions(1);
     return postService.getAll()
         .then(data => {
-            const sortedData = data.sort((a, b) => b.lastUpdateTime - a.lastUpdateTime);
-            console.log(sortedData)
-            console.log(data);
-            expect(sortedData).toEqual(data);
+            const sortedData = data.map(p => new Date(p.lastUpdateTime)).sort((a, b) => b - a);
+            const _data = data.map(p => new Date(p.lastUpdateTime));
+            expect(_data).toEqual(sortedData);
+        });
+});
+
+test('get(): Should return posts sorted by lastUpdateTime', () => {
+    expect.assertions(1);
+    return postService.getAll()
+        .then(data => {
+            const sortedData = data.map(p => new Date(p.lastUpdateTime)).sort((a, b) => b - a);
+            const _data = data.map(p => new Date(p.lastUpdateTime));
+            expect(_data).toEqual(sortedData);
         });
 });

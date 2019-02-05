@@ -19,7 +19,9 @@
                     lastName: "Marcel", 
                     email: "bmarce@gmail.com", 
                     password: "${User.hashPassword('MyBlackDog34*')}", 
-                    isDeleted: false
+                    isDeleted: false,
+                    creationTime: "2019-01-01 15:00:00",
+                    lastUpdateTime: "2019-01-01 15:00:00"
                 }), 
                 (sarah: User {
                     _id:"b", 
@@ -27,7 +29,9 @@
                     lastName: "Brown", 
                     email: "sbrown@gmail.com", 
                     password: "${User.hashPassword('lovePoney+7')}", 
-                    isDeleted: false
+                    isDeleted: false,
+                    creationTime: "2019-01-01 14:00:00",
+                    lastUpdateTime: "2019-01-01 15:45:03"
                 }),
                 (rocky: User {
                     _id:"c", 
@@ -35,7 +39,9 @@
                     lastName: "Balboa", 
                     email: "punchit@gmail.com", 
                     password: "${User.hashPassword('Adrienne_w8')}", 
-                    isDeleted: false
+                    isDeleted: false,
+                    creationTime: "2019-01-01 18:23:00",
+                    lastUpdateTime: "2019-01-01 18:23:00"
                 }), 
                 (m1: Message {
                     _id: "d",
@@ -106,6 +112,7 @@
                     _id: "m",
                     content: "Hey, this is my post",
                     creationTime: "2019-01-01 15:14:12",
+                    lastUpdateTime: "2019-01-01 15:14:12",
                     isDeleted: false
                 }),
                 (bob)-[:WROTE]->(p1),
@@ -113,6 +120,7 @@
                     _id: "m",
                     content: "Hey, this is my post #2",
                     creationTime: "2019-01-01 15:15:12",
+                    lastUpdateTime: "2019-01-01 15:15:12",
                     isDeleted: false
                 }),
                 (bob)-[:WROTE]->(p2),
@@ -120,6 +128,7 @@
                     _id: "m",
                     content: "Hey, this is my post #3",
                     creationTime: "2019-01-01 15:19:12",
+                    lastUpdateTime: "2019-01-01 15:23:15",
                     isDeleted: false
                 }),
                 (sarah)-[:WROTE]->(p3)

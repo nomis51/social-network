@@ -6,7 +6,7 @@ const service = {
         return new Promise(resolve => {
             const session = db.getSession();
             let posts = [];
-            return session.run(`MATCH (post:Post), (user:User) WHERE (user)-[:WROTE]->(post) RETURN post, user`)
+            return session.run(`MATCH (post:Post), (user:User) WHERE (user)-[:WROTE]->(post) RETURN post, user ORDER BY post.lastUpdateTime DESC`)
                 .subscribe({
                     onNext: (record) => {
                         let post = db.parse(record, 'post', ['isDeleted']);
@@ -29,7 +29,7 @@ const service = {
             const session = db.getSession();
             let posts = [];
             let whereQuery = db.jsonToWhereQuery(query, 'post', { creator: 'user._id = @VALUE' });
-            return session.run(`MATCH (post:Post), (user:User) WHERE ${whereQuery}${whereQuery == '' ? '' : ' AND '}(user)-[:WROTE]->(post) RETURN post, user`)
+            return session.run(`MATCH (post:Post), (user:User) WHERE ${whereQuery}${whereQuery == '' ? '' : ' AND '}(user)-[:WROTE]->(post) RETURN post, user ORDER BY post.lastUpdateTime DESC`)
                 .subscribe({
                     onNext: (record) => {
                         let post = db.parse(record, 'post', ['isDeleted']);

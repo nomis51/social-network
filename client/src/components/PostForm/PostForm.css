@@ -22,3 +22,8 @@
 .form-action button {
     margin-left: 1rem;
 }
+
+.error-message {
+    margin-left: 1rem;
+    color: red;
+}

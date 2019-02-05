@@ -10,19 +10,24 @@ class PostForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            content: ''
+            content: '',
+            contentError: false
         };
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        const post = {
-            content: this.state.content
-        };
+        if (this.state.content && this.state.content.trim() !== '') {
+            const post = {
+                content: this.state.content
+            };
 
-        this.props.createPost(post);
+            this.props.createPost(post);
 
-        this.setState({ content: '' });
+            this.setState({ content: '', contentError: false });
+        } else {
+            this.setState({ contentError: true });
+        }
     }
 
     onChange = (e) => {
@@ -34,7 +39,8 @@ class PostForm extends Component {
     render() {
         return (
             <form className="post-form" onSubmit={this.onSubmit}>
-            <h3>Share a new post</h3>
+                <h3>Share a new post</h3>
+                {this.state.contentError && <h5 className="error-message">Please provide a content for your post</h5>}
                 <div className="form-control">
                     <textarea placeholder="Your post content here..." name="content" value={this.state.content} onChange={this.onChange} />
                 </div>

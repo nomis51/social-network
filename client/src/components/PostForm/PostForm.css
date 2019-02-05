@@ -1,0 +1,30 @@
+.post-form {
+    margin: auto;
+    padding: 1rem;
+    width: 44rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.post-form h3 {
+    margin-left: 1rem;
+}
+
+.form-control textarea {
+    padding: 0.8rem;
+    width: 40rem;
+    max-width: 40rem;
+    min-width: 40rem;
+    margin-left: 1rem;
+    height: 5rem;
+    min-height: 5rem;
+    max-height: 10rem;
+}
+
+.form-action button {
+    margin-left: 1rem;
+}
+
+.error-message {
+    margin-left: 1rem;
+    color: red;
+}

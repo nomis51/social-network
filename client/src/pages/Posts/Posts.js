@@ -21,18 +21,23 @@ class PostsPage extends Component {
     render() {
         const posts = this.props.posts.map((p, i) => {
             return (
-                <div className="post" key={i}>
-                    <h4>{p.creator.firstName}</h4>
+                <li className="post" key={i}>
+                    <h4>
+                        {p.creator.firstName}
+                        <br />
+                        <small>{(new Date(p.creationTime)).toLocaleDateString("fr-CA", { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' })}</small>
+                    </h4>
                     <p>{p.content}</p>
-                </div>
+                </li>
             );
         });
 
         return (
-            <div>
+            <div className="posts">
                 <PostForm />
-                <h1>Posts</h1>
-                {posts}
+                <ul className="post-list">
+                    {posts}
+                </ul>
             </div>
         );
     }

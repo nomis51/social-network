@@ -135,7 +135,9 @@
                 (sarah)-[:FRIEND]->(bob),
                 (bob)-[:FRIEND]->(sarah),
                 (rocky)-[:FRIEND]->(sarah),
-                (sarah)-[:FRIEND]->(rocky)
+                (sarah)-[:FRIEND]->(rocky),
+                (rocky)-[:FRIEND]->(bob),
+                (bob)-[:FRIEND]->(rocky)
                  `)
                     .subscribe({
                         onCompleted: () => {

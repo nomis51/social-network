@@ -1,4 +1,6 @@
 import { LOGIN } from './types';
+import { requestHandler } from './../helpers/requestHandler';
+
 
 export const login = (email, password) => dispatch => {
     const reqBody = {
@@ -24,10 +26,9 @@ export const login = (email, password) => dispatch => {
         }
     })
         .then(res => res.json())
-        .then(authData => {
-            return dispatch({
-                type: LOGIN,
-                payload: authData.data.login
-            });
-        });
+        .then(authData =>
+            dispatch(
+                requestHandler(authData, LOGIN, 'login')
+            )
+        );
 }

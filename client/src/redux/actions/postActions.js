@@ -1,5 +1,6 @@
 import { FETCH_POSTS, NEW_POST } from './types';
 import { queryBuilder } from './../../helpers/queryBuilder';
+import { requestHandler } from '../helpers/requestHandler';
 
 export const fetchPosts = () => dispatch => {
     const reqBody = queryBuilder(`
@@ -27,10 +28,11 @@ export const fetchPosts = () => dispatch => {
         }
     })
         .then(res => res.json())
-        .then(postData => dispatch({
-            type: FETCH_POSTS,
-            payload: postData.data.posts
-        }));
+        .then(postData =>
+            dispatch(
+                requestHandler(postData, FETCH_POSTS, 'posts')
+            )
+        );
 };
 
 export const createPost = (post) => dispatch => {
@@ -58,8 +60,9 @@ export const createPost = (post) => dispatch => {
         }
     })
         .then(res => res.json())
-        .then(postData => dispatch({
-            type: NEW_POST,
-            payload: postData.data.createPost
-        }));
+        .then(postData =>
+            dispatch(
+                requestHandler(postData, NEW_POST, 'createPost')
+            )
+        );
 }

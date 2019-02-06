@@ -1,5 +1,6 @@
 import { FETCH_MESSAGES, NEW_MESSAGE } from './types';
 import { queryBuilder } from '../../helpers/queryBuilder';
+import { requestHandler } from './../helpers/requestHandler';
 
 export const fetchMessages = () => dispatch => {
     const reqBody = queryBuilder(`
@@ -26,10 +27,11 @@ export const fetchMessages = () => dispatch => {
         }
     })
         .then(res => res.json())
-        .then(messages => dispatch({
-            type: FETCH_MESSAGES,
-            payload: messages
-        }));
+        .then(messages =>
+            dispatch(
+                requestHandler(messages, FETCH_MESSAGES, 'messages')
+            )
+        );
 }
 
 export const createMessage = (message) => dispatch => {
@@ -59,8 +61,9 @@ export const createMessage = (message) => dispatch => {
         }
     })
         .then(res => res.json())
-        .then(message => dispatch({
-            type: NEW_MESSAGE,
-            payload: message
-        }));
+        .then(message =>
+            dispatch(
+                requestHandler(message, NEW_MESSAGE, 'createMessage')
+            )
+        );
 }

@@ -13,7 +13,7 @@ beforeEach(() => {
         return session.run('MATCH (u:User) DETACH DELETE u')
             .subscribe({
                 onCompleted: () => {
-                    return session.run(`CREATE (:User {
+                    return session.run(`CREATE (p:User {
                                             _id: "a",
                                             firstName: "Paul",
                                             lastName: "Tibodo",
@@ -21,7 +21,18 @@ beforeEach(() => {
                                             password: "${User.hashPassword('Blackdog45%')}",
                                             isDeleted: false,
                                             creationTime: "2019-01-01 15:01:00"
-                                        })`)
+                                        }),
+                                        (b:User {
+                                            _id:"c",
+                                            firstName: "Bianca",
+                                            lastName: "Gino",
+                                            email: "bgino@gmail.com",
+                                            password: "${User.hashPassword('my#Love12')}",
+                                            creationTime: "2019-01-01 15:00:00"
+                                        }),
+                                        (p)-[:FRIEND]->(b),
+                                        (b)-[:FRIEND]->(p)
+                                        `)
                         .subscribe({
                             onCompleted: () => {
                                 session.close();
@@ -347,5 +358,45 @@ test('login(): Should not login successfully', () => {
         .then()
         .catch(err => {
             expect(err).not.toBeUndefined();
+        });
+});
+
+test('getFriends(): Should return an array', () => {
+    expect.assertions(1);
+    return userService.getFriends('a')
+        .then(data => {
+            expect(Array.isArray(data)).toBe(true);
+        });
+});
+
+test('getFriends(): Should return an array of one element', () => {
+    expect.assertions(1);
+    return userService.getFriends('a')
+        .then(data => {
+            expect(data.length).toBe(1);
+        });
+});
+
+test('getFriends(): Should return an array of one user with props firstName, lastName, email, _id', () => {
+    expect.assertions(4);
+    return userService.getFriends('a')
+        .then(data => {
+            const user = data[0];
+            expect(user.firstName).toBeTruthy();
+            expect(user.lastName).toBeTruthy();
+            expect(user.email).toBeTruthy();
+            expect(user._id).toBeTruthy();
+        });
+});
+
+test('getFriends(): Should return an array of one user with props with the following types: firstName (String), lastName(String), email(String), _id(String)', () => {
+    expect.assertions(4);
+    return userService.getFriends('a')
+        .then(data => {
+            const user = data[0];
+            expect(typeof user.firstName).toBe('string');
+            expect(typeof user.lastName).toBe('string');
+            expect(typeof user.email).toBe('string');
+            expect(typeof user._id).toBe('string');
         });
 });

@@ -30,6 +30,7 @@ module.exports = {
         users: [User!]!
         user(email: String!): User
         login(email: String!, password: String!): AuthData!
+        friends: [User!]!
     `,
     mutations: `
         createUser(userInput: UserInput!): User
@@ -49,6 +50,15 @@ module.exports = {
             }
 
             return await userService.getOne(email);
+        },
+        friends: async (args, req) => {
+            if (!req.isAuthenticated) {
+                throw new Error('Unauthenticated');
+            }
+
+            const { user_id } = req;
+
+            return await userService.getFriends(user_id);
         },
         createUser: async (args) => {
             const { firstName, lastName, email, password } = args.userInput;

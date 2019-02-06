@@ -131,7 +131,13 @@
                     lastUpdateTime: "2019-01-01 15:23:15",
                     isDeleted: false
                 }),
-                (sarah)-[:WROTE]->(p3)
+                (sarah)-[:WROTE]->(p3),
+                (sarah)-[:FRIEND]->(bob),
+                (bob)-[:FRIEND]->(sarah),
+                (rocky)-[:FRIEND]->(sarah),
+                (sarah)-[:FRIEND]->(rocky),
+                (rocky)-[:FRIEND]->(bob),
+                (bob)-[:FRIEND]->(rocky)
                  `)
                     .subscribe({
                         onCompleted: () => {

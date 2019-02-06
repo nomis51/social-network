@@ -1,0 +1,40 @@
+.friends {
+    position: fixed;
+    right: 0;
+    top: 4rem;
+    width: 15rem;
+    height: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 0;
+}
+
+.friend-list {
+    padding: 0;
+}
+
+.friends h3 {
+    margin: 1rem;
+}
+
+.friend {
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+    height: 3rem;
+}
+
+.friend:hover {
+    cursor: pointer;
+    background-color: rgb(224, 224, 224);
+}
+
+.friend img {
+    vertical-align: middle;
+    width: 2rem;
+}
+
+.friend p {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1rem;
+}

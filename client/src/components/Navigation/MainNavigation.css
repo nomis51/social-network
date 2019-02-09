@@ -44,3 +44,7 @@
 .main-navigation__items button:active {
     color: #fff;
 }
+
+button{
+    cursor: pointer;
+}

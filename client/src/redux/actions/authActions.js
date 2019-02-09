@@ -1,6 +1,15 @@
-import { LOGIN } from './types';
+import { LOGIN, LOGOUT } from './types';
 import { requestHandler } from './../helpers/requestHandler';
 
+export const logout = () => dispatch => {
+    localStorage.removeItem('token');
+    dispatch({
+        type: LOGOUT,
+        payload: {
+            token: null
+        }
+    });
+}
 
 export const login = (email, password) => dispatch => {
     const reqBody = {

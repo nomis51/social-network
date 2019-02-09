@@ -59,6 +59,10 @@ let db = {
     },
     connect: (url, username, password) => {
         db.driver = neo4j.driver(url, neo4j.auth.basic(username, password));
+
+        if(!db.driver){
+            throw new Error(`Cannot establish connection with Neo4j server ${url} with user ${user}`);
+        }
     }
 };
 

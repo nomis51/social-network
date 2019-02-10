@@ -23,7 +23,8 @@ export const fetchMessages = () => dispatch => {
         method: 'POST',
         body: reqBody,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     })
         .then(res => res.json())
@@ -57,7 +58,8 @@ export const createMessage = (message) => dispatch => {
         method: 'POST',
         body: reqBody,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     })
         .then(res => res.json())

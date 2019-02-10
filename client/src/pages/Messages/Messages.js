@@ -18,16 +18,18 @@ class MessagesPage extends Component {
     }
 
     render() {
-        const messages = this.props.messages.map(message => {
+        const messages = this.props.messages.map((m, i) => {
             return (
-                <div className="message">
-                    <p>{messages.content}</p>
+                <div className="message" key={m._id}>
+                    <p>{m.content}</p>
                 </div>
             );
         });
 
         return (
-            { messages }
+            <div className="messages">
+                {messages}
+            </div>
         );
     }
 }
@@ -38,7 +40,7 @@ MessagesPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    messages: state.items
+    messages: state.messages.items
 });
 
 export default connect(mapStateToProps, { fetchMessages })(MessagesPage);

@@ -7,7 +7,11 @@ module.exports = {
             content: String!
             creator: User!
             creationTime: String!
-            isDeleted: Boolean
+        }
+            
+        type Conversation {
+            recipient: User!
+            user: User!
         }
     `,
     inputs: `
@@ -17,7 +21,8 @@ module.exports = {
         }
     `,
     queries: `
-        messages: [Message!]!
+        messages: [Message!]!,
+        conversations: [Conversation!]!
     `,
     mutations: `
         createMessage(messageInput: MessageInput!): Message
@@ -37,6 +42,14 @@ module.exports = {
 
             const { content, recipient_id } = args.messageInput;
             return await messageService.create(content, req.user_id, recipient_id);
+        },
+        conversations: async (args, req) => {
+            if (!req.isAuthenticated) {
+                throw new Error('Unauthenticated');
+            }
+
+            const { user_id } = req;
+            return await messageService.getConversations(user_id);
         }
     }
 };

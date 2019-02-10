@@ -1,21 +1,55 @@
-import { FETCH_MESSAGES, NEW_MESSAGE } from './types';
+import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS } from './types';
 import { queryBuilder } from '../../helpers/queryBuilder';
 import { requestHandler } from './../helpers/requestHandler';
 
-export const fetchMessages = () => dispatch => {
+export const fetchConversations = () => dispatch => {
     const reqBody = queryBuilder(`
-            query {
-                messages {
+        query {
+            conversations {
+                user {
                     _id,
-                    content,
-                    creationTime,
-                    creator {
-                        _id,
-                        firstName,
-                        lastName
-                    }
+                    firstName,
+                    lastName
+                },
+                recipient {
+                    _id,
+                    firstName,
+                    lastName
                 }
             }
+        }
+    `);
+
+    fetch('http://localhost:8081/api/graphql', {
+        method: 'POST',
+        body: reqBody,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+        .then(res => res.json())
+        .then(conversations =>
+            dispatch(
+                requestHandler(conversations, FETCH_CONVERSATIONS, 'conversations')
+            )
+        );
+}
+
+export const fetchMessages = () => dispatch => {
+    const reqBody = queryBuilder(`
+        query {
+            messages {
+                _id,
+                content,
+                creationTime,
+                creator {
+                    _id,
+                    firstName,
+                    lastName
+                }
+            }
+        }
     `);
 
 

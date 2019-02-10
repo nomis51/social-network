@@ -1,4 +1,3 @@
-// const mongoose = require('mongoose');
 const messageService = require('./message.service');
 const userService = require('../user/user.service');
 const db = require('../../database/db');
@@ -34,7 +33,10 @@ beforeEach(() => {
                         email: "blingbling@gmail.com",
                         password: "${User.hashPassword('Bebling&123')}",
                         creationTime: "2015-05-05 15:15:15"
-                    })`)
+                    }),
+                    (m)-[:DESTINATED_TO]->(j),
+                    (m2)-[:DESTINATED_TO]->(j)
+                    `)
                         .subscribe({
                             onCompleted: () => {
                                 session.close();
@@ -280,5 +282,38 @@ test('create(): Should create a message with content {content:"This is a new mes
                             expect(data2).not.toBeNull();
                         });
                 });
+        });
+});
+
+test('getConversations(): Should return an array of conversations', () => {
+    expect.assertions(1);
+    return messageService.getConversations('c')
+        .then(data => {
+            expect(Array.isArray(data)).toBe(true);
+        });
+});
+
+test('getConversations(): Should contain object with the following props: recipient and user', () => {
+    expect.assertions(2);
+    return messageService.getConversations('c')
+        .then(data => {
+            const c = data[0];
+            expect(c.recipient).toBeTruthy();
+            expect(c.user).toBeTruthy();
+        });
+});
+
+test('getConversations(): Should not return a recipient more than once', () => {
+    expect.assertions(0);
+    return messageService.getConversations('c')
+        .then(data => {
+            let recipients = [];
+            for (let c of data) {
+                if (!recipients.includes(c.recipient._id)) {
+                    recipients.push(c.recipient._id);
+                } else {
+                    expect(0).toBe(1);
+                }
+            }
         });
 });

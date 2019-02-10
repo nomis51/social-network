@@ -104,6 +104,33 @@ const service = {
                     }
                 });
         });
+    },
+
+    getConversations: (user_id) => {
+        return new Promise(resolve => {
+            const session = db.getSession();
+            let conversations = [];
+            return session.run(`MATCH (user: User {_id:"${user_id}"}), (recipient: User), (message: Message) WHERE (user)-[:WROTE]->(message)-[:DESTINATED_TO]->(recipient) OR (recipient)-[:WROTE]->(message)-[:DESTINATED_TO]->(user) RETURN DISTINCT user, recipient`)
+                .subscribe({
+                    onNext: (record) => {
+                        const recipient = db.parse(record, 'recipient', ['isDeleted', 'password']);
+                        const user = db.parse(record, 'user', ['isDeleted', 'password']);
+                        conversations.push({ recipient, user });
+                    },
+                    onCompleted: () => {
+                        session.close();
+                        resolve(conversations);
+                    },
+                    onError: (err) => {
+                        console.log(err);
+                        throw err;
+                    }
+                });
+        });
+    },
+
+    getGroupConversations: (user_id) => {
+        return;
     }
 };
 

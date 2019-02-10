@@ -1,12 +1,15 @@
-import { FETCH_MESSAGES, NEW_MESSAGE } from '../actions/types';
+import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS } from '../actions/types';
 
 const initialState = {
     items: [],
-    item: {}
+    item: {},
+    conversations: {
+        items: []
+    }
 };
 
 export default function (state = initialState, action) {
-    switch (action) {
+    switch (action.type) {
         case FETCH_MESSAGES:
             return {
                 ...state,
@@ -17,6 +20,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 item: action.payload
+            };
+
+        case FETCH_CONVERSATIONS:
+            return {
+                ...state,
+                conversations: {
+                    items: action.payload
+                }
             };
 
         default:

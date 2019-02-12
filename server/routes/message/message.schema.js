@@ -13,6 +13,11 @@ module.exports = {
             recipient: User!
             user: User!
         }
+
+        type ConversationMessages {
+            userMessages: [Message!]!
+            recipientMessages: [Message!]!
+        }
     `,
     inputs: `
         input MessageInput {
@@ -21,7 +26,7 @@ module.exports = {
         }
     `,
     queries: `
-        messages(recipient_id: String!): [Message!]!,
+        messages(recipient_id: String!): ConversationMessages!,
         conversations: [Conversation!]!
     `,
     mutations: `

@@ -36,18 +36,13 @@ export const fetchConversations = () => dispatch => {
         );
 }
 
-export const fetchMessages = () => dispatch => {
+export const fetchMessages = (recipient_id) => dispatch => {
     const reqBody = queryBuilder(`
         query {
-            messages {
+            messages(recipient_id: "${recipient_id}") {
                 _id,
                 content,
                 creationTime,
-                creator {
-                    _id,
-                    firstName,
-                    lastName
-                }
             }
         }
     `);

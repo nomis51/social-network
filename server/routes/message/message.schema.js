@@ -21,7 +21,7 @@ module.exports = {
         }
     `,
     queries: `
-        messages: [Message!]!,
+        messages(recipient_id: String!): [Message!]!,
         conversations: [Conversation!]!
     `,
     mutations: `
@@ -33,7 +33,10 @@ module.exports = {
                 throw new Error('Unauthenticated');
             }
 
-            return await messageService.getAll();
+            const { recipient_id } = args;
+            const { user_id } = req;
+
+            return await messageService.getAll(recipient_id, user_id);
         },
         createMessage: async (args, req) => {
             if (!req.isAuthenticated) {

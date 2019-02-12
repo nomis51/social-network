@@ -40,9 +40,16 @@ export const fetchMessages = (recipient_id) => dispatch => {
     const reqBody = queryBuilder(`
         query {
             messages(recipient_id: "${recipient_id}") {
-                _id,
-                content,
-                creationTime,
+                userMessages: {
+                    _id,
+                    content,
+                    creationTime
+                },
+                recipientMessages: {
+                    _id,
+                    content,
+                    creationTime
+                }
             }
         }
     `);

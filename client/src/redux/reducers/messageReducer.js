@@ -1,11 +1,12 @@
 import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS } from '../actions/types';
 
 const initialState = {
-    items: [],
+    conversationMessages: {},
     item: {},
     conversations: {
         items: []
-    }
+    },
+    recipient_id: ''
 };
 
 export default function (state = initialState, action) {
@@ -13,7 +14,7 @@ export default function (state = initialState, action) {
         case FETCH_MESSAGES:
             return {
                 ...state,
-                items: action.payload
+                ...action.payload
             };
 
         case NEW_MESSAGE:

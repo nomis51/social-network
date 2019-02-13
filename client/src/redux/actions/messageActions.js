@@ -1,6 +1,6 @@
 import { FETCH_MESSAGES, NEW_MESSAGE } from './types';
 import { queryBuilder } from '../../helpers/queryBuilder';
-import { requestHandler } from './../helpers/requestHandler';
+import { requestHandler } from '../../helpers/requestHandler';
 
 export const fetchMessages = () => dispatch => {
     const reqBody = queryBuilder(`

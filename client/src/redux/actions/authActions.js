@@ -1,5 +1,5 @@
 import { LOGIN, LOGOUT } from './types';
-import { requestHandler } from './../helpers/requestHandler';
+import { requestHandler } from '../../helpers/requestHandler';
 
 export const logout = () => dispatch => {
     localStorage.removeItem('token');

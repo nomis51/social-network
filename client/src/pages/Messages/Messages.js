@@ -12,24 +12,25 @@ class MessagesPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps) {
-            this.props.messages.unshift(nextProps.message);
-        }
+
+    }
+
+    getMessages = recipient_id => e => {
+        e.preventDefault();
+        this.props.fetchMessages(recipient_id);
     }
 
     render() {
         const conversations = this.props.conversations.map((c, i) => {
             return (
-                <div className="conversation" key={i}>
-                    <p>{c.recipient.firstName}</p>
-                </div>
+                <li className="conversation" key={i} onClick={this.getMessages(c.recipient._id)}>{c.recipient.firstName}</li>
             );
         });
 
         return (
-            <div className="messages">
+            <ul className="messages">
                 {conversations}
-            </div>
+            </ul>
         );
     }
 }
@@ -37,12 +38,14 @@ class MessagesPage extends Component {
 MessagesPage.propTypes = {
     fetchMessages: PropTypes.func.isRequired,
     fetchConversations: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired,
+    userMessages: PropTypes.array,
+    recipientMessages: PropTypes.array,
     conversations: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-    messages: state.messages.items,
+    userMessages: state.messages.userMessages,
+    recipientMessages: state.messages.recipientMessages,
     conversations: state.messages.conversations.items
 });
 

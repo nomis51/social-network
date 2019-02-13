@@ -1,7 +1,8 @@
 import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS } from '../actions/types';
 
 const initialState = {
-    conversationMessages: {},
+    userMessages: [],
+    recipientMessages: [],
     item: {},
     conversations: {
         items: []

@@ -6,7 +6,6 @@ const service = {
     getAll: (recipient_id, user_id) => {
         return new Promise(resolve => {
             let messages = { userMessages: [], recipientMessages: [] };
-            console.log('ICITTE');
             return service._getAll(user_id, recipient_id)
                 .then(userMessages => {
                     messages.userMessages = userMessages;
@@ -23,7 +22,7 @@ const service = {
         return new Promise(resolve => {
             const session = db.getSession();
             let messages = [];
-            return session.run(`MATCH (sender: User {_id: "${sender_id}"}), (message: Message), (recipient: User {_id: "${recipient_id}"}) WHERE (sender)-[:WROTE]->(message)-[:DESTINATED_TO]->(recipient) RETURN sender, recipient, message`)
+            return session.run(`MATCH (sender: User {_id: "${sender_id}"}), (message: Message), (recipient: User {_id: "${recipient_id}"}) WHERE (sender)-[:WROTE]->(message)-[:DESTINATED_TO]->(recipient) RETURN sender, recipient, message ORDER BY message`)
                 .subscribe({
                     onNext: (record) => {
                         let message = db.parse(record, 'message', ['isDeleted']);

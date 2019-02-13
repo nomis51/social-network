@@ -1,0 +1,42 @@
+.messages{
+    width: 40rem;
+}
+
+.conversation {
+    list-style: none;
+    padding: 0.1rem;
+    margin-bottom: 1rem;
+    height: 3rem;
+    width: 10rem;
+}
+
+.conversation:hover {
+    cursor: pointer;
+    background-color: rgb(224, 224, 224);
+}
+
+.conversation img {
+    vertical-align: middle;
+    width: 1.5rem;
+}
+
+.conversation p {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1rem;
+}
+
+.message{
+    list-style: none;
+    max-width: 10rem;
+    display: list-item;
+    clear:both;
+}
+
+.message__user{
+    float: right;
+}
+
+.message__recipient{
+    float: left;
+}

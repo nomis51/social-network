@@ -1,5 +1,5 @@
 import { LOGIN } from './types';
-import { requestHandler } from './../helpers/requestHandler';
+import { requestHandler } from '../../helpers/requestHandler';
 
 
 export const login = (email, password) => dispatch => {

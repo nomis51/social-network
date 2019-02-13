@@ -1,6 +1,6 @@
 import { FETCH_POSTS, NEW_POST } from './types';
 import { queryBuilder } from './../../helpers/queryBuilder';
-import { requestHandler } from '../helpers/requestHandler';
+import { requestHandler } from '../../helpers/requestHandler';
 
 export const fetchPosts = () => dispatch => {
     const reqBody = queryBuilder(`

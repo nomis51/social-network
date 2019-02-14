@@ -31,21 +31,25 @@ class MessagesPage extends Component {
         });
 
         let messages = [];
-        console.log(this.props.userMessages)
-        console.log(this.props.recipientMessages)
 
         for (let i = 0, r = 0, u = 0; i < this.props.userMessages.length + this.props.recipientMessages.length; ++i) {
             if (this.props.userMessages.length > u && ((this.props.recipientMessages.length > r && new Date(this.props.userMessages[u].creationTime) < new Date(this.props.recipientMessages[r].creationTime)) || this.props.recipientMessages.length <= r)) {
                 messages.push(
                     <li className="message message__user" key={i}>
-                        <p>{this.props.userMessages[u].content}<br />{this.props.userMessages[u].creationTime}</p>
+                        <p>
+                            {this.props.userMessages[u].content}<br />
+                            <span className="message-time message__user-time">{this.props.userMessages[u].creationTime}</span>
+                        </p>
                     </li>
                 );
                 ++u;
             } else if (this.props.recipientMessages.length > r) {
                 messages.push(
                     <li className="message message__recipient" key={i}>
-                        <p>{this.props.recipientMessages[r].content}<br />{this.props.recipientMessages[r].creationTime}</p>
+                        <p>
+                            {this.props.recipientMessages[r].content}<br />
+                            <span className="message-time message__recipient-time">{this.props.recipientMessages[r].creationTime}</span>
+                        </p>
                     </li>
                 );
                 ++r;
@@ -54,11 +58,14 @@ class MessagesPage extends Component {
 
 
         return (
-            <div className="messages">
-                <ul className="conversation-list">
-                    {conversations}
-                </ul>
-                <div className="message-list">
+            <div className="messages row">
+                <div className=" conversation-list col-lg-3">
+                    <h3>Conversations</h3>
+                    <ul>
+                        {conversations}
+                    </ul>
+                </div>
+                <div className="message-list col-lg-9">
                     <h3>Messages</h3>
                     <ul>
                         {messages}

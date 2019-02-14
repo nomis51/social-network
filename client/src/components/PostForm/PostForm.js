@@ -41,7 +41,7 @@ class PostForm extends Component {
             <form className="post-form" onSubmit={this.onSubmit}>
                 <h3>Share a new post</h3>
                 {this.state.contentError && <h5 className="error-message">Please provide a content for your post</h5>}
-                <div className="form-control">
+                <div className="form-element">
                     <textarea placeholder="Your post content here..." name="content" value={this.state.content} onChange={this.onChange} />
                 </div>
                 <div className="form-action">

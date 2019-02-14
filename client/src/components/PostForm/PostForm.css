@@ -9,7 +9,7 @@
     margin-left: 1rem;
 }
 
-.form-control textarea {
+.form-element textarea {
     padding: 0.8rem;
     width: 40rem;
     max-width: 40rem;

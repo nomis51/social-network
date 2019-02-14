@@ -4,17 +4,17 @@
     margin: 5rem auto;
 }
 
-.form-control label, 
-.form-control input {
+.form-element label, 
+.form-element input {
     width: 100%;
     display: block;
 }
 
-.form-control label {
+.form-element label {
     margin-bottom: 0.5rem;
 }
 
-.form-control {
+.form-element {
     margin-bottom: 1rem;
 }
 

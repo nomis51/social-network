@@ -62,19 +62,19 @@ class SignUpPage extends Component {
     render() {
         return (
             <form className="signup-forn" onSubmit={this.handleSubmit}>
-                <div className="form-control">
+                <div className="form-element">
                     <label htmlFor="firstName">First name</label>
                     <input type="text" id="firstName" ref={this.firstNameEle} />
                 </div>
-                <div className="form-control">
+                <div className="form-element">
                     <label htmlFor="lastName">Last name</label>
                     <input type="text" id="lastName" ref={this.lastNameEle} />
                 </div>
-                <div className="form-control">
+                <div className="form-element">
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" ref={this.emailEle} />
                 </div>
-                <div className="form-control">
+                <div className="form-element">
                     <label htmlFor="password">Password</label>
                     <input type="password" id="password" ref={this.passwordEle} />
                 </div>

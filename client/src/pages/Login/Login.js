@@ -30,11 +30,11 @@ class LoginPage extends Component {
     render() {
         return (
             <form className="login-form" onSubmit={this.handleSubmit}>
-                <div className="form-control">
+                <div className="form-element">
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" ref={this.emailEle} />
                 </div>
-                <div className="form-control">
+                <div className="form-element">
                     <label htmlFor="password">Password</label>
                     <input type="password" id="password" ref={this.passwordEle} />
                 </div>

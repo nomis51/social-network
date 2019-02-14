@@ -74,7 +74,7 @@ export const fetchMessages = (recipient_id) => dispatch => {
 export const createMessage = (message) => dispatch => {
     const reqBody = queryBuilder(`
         mutation {
-            createMessage(mesageInput: {
+            createMessage(messageInput: {
                 content: "${message.content}",
                 recipient_id: "${message.recipient_id}"
             }) {

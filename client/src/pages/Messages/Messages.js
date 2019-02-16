@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import { fetchMessages, fetchConversations, createMessage } from '../../redux/actions/messageActions';
 
+import Message from '../../components/Message/Message';
+
 import './Messages.css';
 
 class MessagesPage extends Component {
@@ -72,22 +74,12 @@ class MessagesPage extends Component {
         for (let i = 0, r = 0, u = 0; i < this.props.userMessages.length + this.props.recipientMessages.length; ++i) {
             if (this.props.userMessages.length > u && ((this.props.recipientMessages.length > r && new Date(this.props.userMessages[u].creationTime) < new Date(this.props.recipientMessages[r].creationTime)) || this.props.recipientMessages.length <= r)) {
                 messages.push(
-                    <li className="message message__user" key={i}>
-                        <p>
-                            {this.props.userMessages[u].content}<br />
-                            <span className="message-time message__user-time">{this.props.userMessages[u].creationTime}</span>
-                        </p>
-                    </li>
+                    <Message message={this.props.userMessages[u]} className="message__user" key={i} />
                 );
                 ++u;
             } else if (this.props.recipientMessages.length > r) {
                 messages.push(
-                    <li className="message message__recipient" key={i}>
-                        <p>
-                            {this.props.recipientMessages[r].content}<br />
-                            <span className="message-time message__recipient-time">{this.props.recipientMessages[r].creationTime}</span>
-                        </p>
-                    </li>
+                    <Message message={this.props.recipientMessages[r]} className="message__recipient" key={i} />
                 );
                 ++r;
             }

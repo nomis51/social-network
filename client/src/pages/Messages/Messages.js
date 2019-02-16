@@ -55,7 +55,7 @@ class MessagesPage extends Component {
         return (
             <React.Fragment>
                 <div className="messages row">
-                    <div className=" conversation-list col-lg-3">
+                    <div className="col-lg-3">
                         <h3>Conversations</h3>
                         <ConversationList conversation={this.props.conversations} />
                     </div>

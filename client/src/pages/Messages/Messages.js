@@ -16,7 +16,8 @@ class MessagesPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps) {
+        console.log('HERER')
+        if (nextProps && nextProps.newMessage && Object.keys(nextProps.newMessage).length !== 0) {
             this.props.userMessages.push(nextProps.newMessage);
         }
     }

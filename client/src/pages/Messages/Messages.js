@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { fetchMessages, fetchConversations, createMessage } from '../../redux/actions/messageActions';
 
-import Message from '../../components/Message/Message';
+import MessageList from '../../components/MessageList/MessageList';
 
 import './Messages.css';
 
@@ -69,23 +69,6 @@ class MessagesPage extends Component {
             );
         });
 
-        let messages = [];
-
-        for (let i = 0, r = 0, u = 0; i < this.props.userMessages.length + this.props.recipientMessages.length; ++i) {
-            if (this.props.userMessages.length > u && ((this.props.recipientMessages.length > r && new Date(this.props.userMessages[u].creationTime) < new Date(this.props.recipientMessages[r].creationTime)) || this.props.recipientMessages.length <= r)) {
-                messages.push(
-                    <Message message={this.props.userMessages[u]} className="message__user" key={i} />
-                );
-                ++u;
-            } else if (this.props.recipientMessages.length > r) {
-                messages.push(
-                    <Message message={this.props.recipientMessages[r]} className="message__recipient" key={i} />
-                );
-                ++r;
-            }
-        }
-
-
         return (
             <React.Fragment>
 
@@ -96,11 +79,9 @@ class MessagesPage extends Component {
                             {conversations}
                         </ul>
                     </div>
-                    <div className="message-list col-lg-9">
+                    <div className="col-lg-9">
                         <h3>Messages</h3>
-                        <ul>
-                            {messages}
-                        </ul>
+                        <MessageList userMessages={this.props.userMessages} recipientMessages={this.props.recipientMessages} />
                     </div>
                 </div>
                 <form className="message-form" onSubmit={this.submitMessage}>

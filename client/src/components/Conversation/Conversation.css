@@ -1,0 +1,22 @@
+.conversation {
+    list-style: none;
+    padding: 0.1rem;
+    margin: 0;
+    height: 3rem;
+}
+
+.conversation:hover {
+    cursor: pointer;
+    background-color: rgb(224, 224, 224);
+}
+
+.conversation img {
+    vertical-align: middle;
+    width: 1.5rem;
+}
+
+.conversation p {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1rem;
+}

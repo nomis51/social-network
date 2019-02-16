@@ -7,6 +7,7 @@ import { fetchMessages, fetchConversations, createMessage } from '../../redux/ac
 import MessageList from '../../components/MessageList/MessageList';
 
 import './Messages.css';
+import ConversationList from '../../components/ConversationList/ConversationList';
 
 class MessagesPage extends Component {
     constructor(props) {
@@ -25,15 +26,6 @@ class MessagesPage extends Component {
         if (nextProps) {
             this.props.userMessages.push(nextProps.newMessage);
         }
-    }
-
-    getMessages = recipient_id => e => {
-        e.preventDefault();
-        this.setState({
-            recipient_id
-        });
-
-        this.props.fetchMessages(recipient_id);
     }
 
     submitMessage = (e) => {
@@ -60,24 +52,12 @@ class MessagesPage extends Component {
     }
 
     render() {
-        const conversations = this.props.conversations.map((c, i) => {
-            return (
-                <li className="conversation" key={i} onClick={this.getMessages(c.recipient._id)}>
-                    <img src="https://www.shareicon.net/download/128x128//2015/10/14/656187_cat_512x512.png" alt={c.recipient.firstName + '\'s image'} />
-                    <p>{c.recipient.firstName} {c.recipient.lastName}</p>
-                </li>
-            );
-        });
-
         return (
             <React.Fragment>
-
                 <div className="messages row">
                     <div className=" conversation-list col-lg-3">
                         <h3>Conversations</h3>
-                        <ul>
-                            {conversations}
-                        </ul>
+                        <ConversationList conversation={this.props.conversations} />
                     </div>
                     <div className="col-lg-9">
                         <h3>Messages</h3>

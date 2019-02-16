@@ -1,4 +1,4 @@
-import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS } from './types';
+import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS, SET_RECIPIENT } from './types';
 import { queryBuilder } from '../../helpers/queryBuilder';
 import { requestHandler } from './../helpers/requestHandler';
 
@@ -104,4 +104,11 @@ export const createMessage = (message) => dispatch => {
                 requestHandler(message, NEW_MESSAGE, 'createMessage')
             )
         );
+}
+
+export const setRecipient = (recipient_id) => dispatch => {
+    dispatch({
+        type: SET_RECIPIENT,
+        payload: recipient_id
+    });
 }

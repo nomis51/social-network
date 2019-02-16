@@ -95,22 +95,40 @@ const service = {
                 return reject('Invalid inputs');
             }
 
-            let createdMessage;
             const session = db.getSession();
-            return session.run(`MATCH (user:User), (recipient: User {_id:"${recipient_id}"}) WHERE user._id = "${creator_id}" CREATE (message:Message {
-                _id: "${message._id}",
-                content: "${message.content}",
-                isDeleted: ${message.isDeleted},
-                creationTime: "${message.creationTime}"
-            }), (user)-[:WROTE]->(message)-[:DESTINATED_TO]->(recipient) RETURN message, user`)
+            let anyRecord = false;
+            session.run(`MATCH (u:User {_id:"${recipient_id}"}) RETURN true`)
                 .subscribe({
                     onNext: (record) => {
-                        session.close();
-                        createdMessage = db.parse(record, 'message', ['isDeleted']);
-                        createdMessage.creator = db.parse(record, 'user', ['isDeleted', 'password']);
+                        anyRecord = true;
                     },
                     onCompleted: () => {
-                        resolve(createdMessage);
+                        if (!anyRecord) {
+                            session.close();
+                            reject(new Error('Invalid inputs'));
+                        }
+
+                        let createdMessage;
+                        return session.run(`MATCH (user:User), (recipient: User {_id:"${recipient_id}"}) WHERE user._id = "${creator_id}" CREATE (message:Message {
+            _id: "${message._id}",
+            content: "${message.content}",
+            isDeleted: ${message.isDeleted},
+            creationTime: "${message.creationTime}"
+        }), (user)-[:WROTE]->(message)-[:DESTINATED_TO]->(recipient) RETURN message, user`)
+                            .subscribe({
+                                onNext: (record) => {
+                                    session.close();
+                                    createdMessage = db.parse(record, 'message', ['isDeleted']);
+                                    createdMessage.creator = db.parse(record, 'user', ['isDeleted', 'password']);
+                                },
+                                onCompleted: () => {
+                                    resolve(createdMessage);
+                                },
+                                onError: (err) => {
+                                    console.log(err);
+                                    throw err;
+                                }
+                            });
                     },
                     onError: (err) => {
                         console.log(err);

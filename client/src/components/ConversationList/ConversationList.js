@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { fetchMessages } from '../../redux/actions/messageActions';
+import { fetchMessages, setRecipient } from '../../redux/actions/messageActions';
 
 import Conversation from '../Conversation/Conversation';
 
@@ -15,6 +15,7 @@ class ConversationList extends Component {
             recipient_id
         });
 
+        this.props.setRecipient(recipient_id);
         this.props.fetchMessages(recipient_id);
     }
 
@@ -37,6 +38,7 @@ class ConversationList extends Component {
 
 ConversationList.propTypes = {
     fetchMessages: PropTypes.func.isRequired,
+    setRecipient: PropTypes.func.isRequired,
     conversations: PropTypes.array.isRequired
 };
 
@@ -44,4 +46,4 @@ const mapStateToProps = state => ({
     conversations: state.messages.conversations.items
 });
 
-export default connect(mapStateToProps, { fetchMessages })(ConversationList);
+export default connect(mapStateToProps, { fetchMessages, setRecipient })(ConversationList);

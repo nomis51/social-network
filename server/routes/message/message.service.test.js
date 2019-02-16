@@ -303,6 +303,17 @@ test('create(): Should create a message with content {content:"This is a new mes
         });
 });
 
+test('create(): Should not return a null object because recipient_id is not valid', () => {
+    expect.assertions(1);
+    return messageService.create('This a message with an invalid recipient_id', 'e', 'wrong id')
+        .then(data => {
+            expect(false).toBeTruthy();
+        })
+        .catch(err => {
+            expect(err).toBeTruthy();
+        });
+});
+
 test('getConversations(): Should return an array of conversations', () => {
     expect.assertions(1);
     return messageService.getConversations('c')

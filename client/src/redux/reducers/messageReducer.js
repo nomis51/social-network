@@ -1,4 +1,4 @@
-import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS } from '../actions/types';
+import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS, SET_RECIPIENT } from '../actions/types';
 
 const initialState = {
     userMessages: [],
@@ -30,6 +30,12 @@ export default function (state = initialState, action) {
                 conversations: {
                     items: action.payload
                 }
+            };
+
+        case SET_RECIPIENT:
+            return {
+                ...state,
+                recipient_id: action.payload
             };
 
         default:

@@ -10,8 +10,7 @@ class MessageForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            content: '',
-            recipient_id: ''
+            content: ''
         };
     }
 
@@ -21,7 +20,7 @@ class MessageForm extends Component {
         if (this.state.content.trim()) {
             const message = {
                 content: this.state.content,
-                recipient_id: this.state.recipient_id
+                recipient_id: this.props.recipient_id
             }
 
             this.props.createMessage(message);
@@ -49,7 +48,12 @@ class MessageForm extends Component {
 }
 
 MessageForm.propTypes = {
-    createMessage: PropTypes.func.isRequired
+    createMessage: PropTypes.func.isRequired,
+    recipient_id: PropTypes.string.isRequired
 };
 
-export default connect(null, { createMessage })(MessageForm);
+const mapStateToProps = state => ({
+    recipient_id: state.messages.recipient_id
+});
+
+export default connect(mapStateToProps, { createMessage })(MessageForm);

@@ -2,22 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { fetchMessages, fetchConversations, createMessage } from '../../redux/actions/messageActions';
-
-import MessageList from '../../components/MessageList/MessageList';
+import { fetchConversations } from '../../redux/actions/messageActions';
 
 import './Messages.css';
+
+import MessageList from '../../components/MessageList/MessageList';
 import ConversationList from '../../components/ConversationList/ConversationList';
+import MessageForm from '../../components/MessageForm/MessageForm';
 
 class MessagesPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            content: '',
-            recipient_id: ''
-        };
-    }
-
     componentWillMount() {
         this.props.fetchConversations();
     }
@@ -26,29 +19,6 @@ class MessagesPage extends Component {
         if (nextProps) {
             this.props.userMessages.push(nextProps.newMessage);
         }
-    }
-
-    submitMessage = (e) => {
-        e.preventDefault();
-
-        if (this.state.content.trim()) {
-            const message = {
-                content: this.state.content,
-                recipient_id: this.state.recipient_id
-            }
-
-            this.props.createMessage(message);
-
-            this.setState({
-                content: ''
-            });
-        }
-    }
-
-    onChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
     }
 
     render() {
@@ -64,19 +34,14 @@ class MessagesPage extends Component {
                         <MessageList userMessages={this.props.userMessages} recipientMessages={this.props.recipientMessages} />
                     </div>
                 </div>
-                <form className="message-form" onSubmit={this.submitMessage}>
-                    <input name="content" type="text" value={this.state.content} placeholder="Type your message here..." onChange={this.onChange} />
-                    <button type="submit">Send</button>
-                </form>
+                <MessageForm />
             </React.Fragment>
         );
     }
 }
 
 MessagesPage.propTypes = {
-    fetchMessages: PropTypes.func.isRequired,
     fetchConversations: PropTypes.func.isRequired,
-    createMessage: PropTypes.func.isRequired,
     userMessages: PropTypes.array,
     recipientMessages: PropTypes.array,
     conversations: PropTypes.array.isRequired
@@ -89,4 +54,4 @@ const mapStateToProps = state => ({
     newMessage: state.messages.item
 });
 
-export default connect(mapStateToProps, { fetchMessages, fetchConversations, createMessage })(MessagesPage);
+export default connect(mapStateToProps, { fetchConversations })(MessagesPage);

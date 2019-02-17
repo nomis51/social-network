@@ -22,7 +22,6 @@ const service = {
         return new Promise(resolve => {
             const session = db.getSession();
             let messages = [];
-            console.log(`MATCH (sender: User {_id: "${sender_id}"}), (message: Message), (recipient: User {_id: "${recipient_id}"}) WHERE (sender)-[:WROTE]->(message)-[:DESTINATED_TO]->(recipient) RETURN sender, recipient, message ORDER BY message.createTime`)
             return session.run(`MATCH (sender: User {_id: "${sender_id}"}), (message: Message), (recipient: User {_id: "${recipient_id}"}) WHERE (sender)-[:WROTE]->(message)-[:DESTINATED_TO]->(recipient) RETURN sender, recipient, message ORDER BY message.creationTime`)
                 .subscribe({
                     onNext: (record) => {

@@ -48,8 +48,14 @@ class MessageForm extends Component {
     render() {
         return (
             <form className="message-form" onSubmit={this.submitMessage}>
-                <input name="content" type="text" value={this.state.content} placeholder="Type your message here..." onChange={this.onChange} />
-                <button type="submit">Send</button>
+                <div className="row">
+                    <div className="form-element col-lg-9">
+                        <input name="content" type="text" value={this.state.content} placeholder="Type your message here..." onChange={this.onChange} />
+                    </div>
+                    <div className="form-action col-lg-3">
+                        <button type="submit">Send</button>
+                    </div>
+                </div>
             </form>
         );
     }

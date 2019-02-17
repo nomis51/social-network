@@ -2,9 +2,3 @@
 .messages{
     width: 80%;
 }
-
-.message-form{
-    position:fixed;
-    bottom: 1rem;
-    left:50%;
-}

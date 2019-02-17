@@ -1,5 +1,5 @@
 const GraphQLRoute = require('../routes/graphql/graphql');
-const AuthenticationMiddleware = require('../middlewares/authentication');
+const AuthenticationMiddleware = require('../middlewares/authentication').middleware;
 const CorsMiddleware = require('../middlewares/cors');
 
 module.exports = (app) => {

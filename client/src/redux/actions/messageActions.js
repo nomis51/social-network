@@ -73,8 +73,10 @@ export const fetchMessages = (recipient_id) => dispatch => {
 }
 
 export const createMessage = (message) => dispatch => {
-    const socket = socketIOClient('http://localhost:8081', { query: `token=${localStorage.getItem('token')}` });
-    socket.emit('sendMessage', message);
+    dispatch({
+        type: NEW_MESSAGE,
+        payload: message
+    });
 
     // const reqBody = queryBuilder(`
     //     mutation {
@@ -125,7 +127,7 @@ export const listenForMessage = () => dispatch => {
             payload: message
         });
     });
-    
+
     return socket.on('sendMessage', (message) => {
         dispatch({
             type: NEW_MESSAGE,

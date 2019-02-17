@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import socketIOClient from 'socket.io-client';
 
-import { fetchConversations, listenForMessage } from '../../redux/actions/messageActions';
+import { fetchConversations } from '../../redux/actions/messageActions';
 
 import './Messages.css';
 
@@ -22,23 +21,9 @@ class MessagesPage extends Component {
         }
     }
 
-    componentDidMount() {
-        this.props.listenForMessage();
-
-        const socket = socketIOClient('http://localhost:8081', { query: `token=${localStorage.getItem('token')}` });
-        socket.on('newMessage', (message) => {
-            this.props.recipientMessages.push(message);
-        });
-
-        socket.on('sendMessage', (message) => {
-            this.props.userMessages.push(message);
-        });
-    }
-
     render() {
         return (
             <React.Fragment>
-                <button onClick={this.send}>SEND</button>
                 <div className="messages row">
                     <div className="col-lg-3">
                         <h3>Conversations</h3>
@@ -69,4 +54,4 @@ const mapStateToProps = state => ({
     newMessage: state.messages.item,
 });
 
-export default connect(mapStateToProps, { fetchConversations, listenForMessage })(MessagesPage);
+export default connect(mapStateToProps, { fetchConversations })(MessagesPage);

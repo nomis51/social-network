@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import socketIOClient from 'socket.io-client';
 
 import { createMessage } from '../../redux/actions/messageActions';
 
@@ -10,8 +11,15 @@ class MessageForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            socket: socketIOClient('http://localhost:8081', { query: `token=${localStorage.getItem('token')}` }),
             content: ''
         };
+    }
+
+    componentDidMount() {
+        this.state.socket.on('sendMessage', (message) => {
+            this.props.createMessage(message);
+        });
     }
 
     submitMessage = (e) => {
@@ -23,7 +31,7 @@ class MessageForm extends Component {
                 recipient_id: this.props.recipient_id
             }
 
-            this.props.createMessage(message);
+            this.state.socket.emit('sendMessage', message);
 
             this.setState({
                 content: ''
@@ -49,11 +57,11 @@ class MessageForm extends Component {
 
 MessageForm.propTypes = {
     createMessage: PropTypes.func.isRequired,
-    recipient_id: PropTypes.string.isRequired
+    recipient_id: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-    recipient_id: state.messages.recipient_id
+    recipient_id: state.messages.recipient_id,
 });
 
 export default connect(mapStateToProps, { createMessage })(MessageForm);

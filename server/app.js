@@ -23,21 +23,19 @@ const messageService = require('./routes/message/message.service');
 let clients = [];
 io.use(socketioAuth)
     .on('connection', (client) => {
-        console.log('Client connected')
+        console.log('Client connected');
         clients.push(client);
 
         client.on('disconnect', () => {
-            console.log('Client disconnected')
+            console.log('Client disconnected');
             clients.slice(clients.indexOf(client), 1);
         });
 
         //** Message **//
         client.on('sendMessage', (message) => {
-            console.log('Got a message')
             const { content, recipient_id } = message;
             messageService.create(content, client.user_id, recipient_id)
                 .then(createdMessage => {
-                    console.log('send it');
                     client.emit('sendMessage', createdMessage);
                 });
         });

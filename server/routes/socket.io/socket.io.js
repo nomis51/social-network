@@ -1,24 +1,29 @@
 const SocketIO = require('socket.io');
 const socketioAuth = require('./socket.io.auth');
+const messageService = require('../message/message.service');
 
 module.exports = class SocketIORoute {
     constructor(server) {
-        const io = SocketIO(server);
+        this.io = SocketIO(server);
 
-        let clients = [];
-        io.use(socketioAuth)
+        this.clients = [];
+        this.io.use(socketioAuth)
             .on('connection', (client) => {
-                console.log(client);
-                clients.push(client);
+                console.log('Client connected');
+                this.clients.push(client);
 
                 client.on('disconnect', () => {
-                    clients.slice(clients.indexOf(client), 1);
-                    console.log(clients);
+                    console.log('Client disconnected');
+                    this.clients.slice(this.clients.indexOf(client), 1);
                 });
 
                 //** Message **//
                 client.on('sendMessage', (message) => {
-                    console.log(message);
+                    const { content, recipient_id } = message;
+                    messageService.create(content, client.user_id, recipient_id)
+                        .then(createdMessage => {
+                            client.emit('sendMessage', createdMessage);
+                        });
                 });
             });
     }

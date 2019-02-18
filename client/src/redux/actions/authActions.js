@@ -2,7 +2,7 @@ import { LOGIN, LOGOUT } from './types';
 import { requestHandler } from '../../helpers/requestHandler';
 
 export const logout = () => dispatch => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     dispatch({
         type: LOGOUT,
         payload: {

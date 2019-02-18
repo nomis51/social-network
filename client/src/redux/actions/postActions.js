@@ -24,7 +24,7 @@ export const fetchPosts = () => dispatch => {
         body: reqBody,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
     })
         .then(res => res.json())
@@ -56,7 +56,7 @@ export const createPost = (post) => dispatch => {
         body: reqBody,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
     })
         .then(res => res.json())

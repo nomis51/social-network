@@ -5,7 +5,7 @@ import rootReducer from './reducers';
 
 const initialState = {
     auth: {
-        token: localStorage.getItem('token')
+        token: sessionStorage.getItem('token')
     }
 };
 
@@ -22,7 +22,7 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-    localStorage.setItem('token', store.getState().auth.token);
+    sessionStorage.setItem('token', store.getState().auth.token);
 });
 
 export default store;

@@ -26,7 +26,7 @@ export const fetchConversations = () => dispatch => {
         body: reqBody,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
     })
         .then(res => res.json())
@@ -61,7 +61,7 @@ export const fetchMessages = (recipient_id) => dispatch => {
         body: reqBody,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
     })
         .then(res => res.json())
@@ -120,7 +120,7 @@ export const setRecipient = (recipient_id) => dispatch => {
 }
 
 export const listenForMessage = () => dispatch => {
-    const socket = socketIOClient('http://localhost:8081', { query: `token=${localStorage.getItem('token')}` });
+    const socket = socketIOClient('http://localhost:8081', { query: `token=${sessionStorage.getItem('token')}` });
     socket.on('newMessage', (message) => {
         dispatch({
             type: NEW_RECIPIENT_MESSAGE,

@@ -18,7 +18,7 @@ export const fetchFriends = () => dispatch => {
         body: reqBody,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
     })
         .then(res => res.json())

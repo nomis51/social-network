@@ -13,7 +13,6 @@ class MessageForm extends Component {
         this.state = {
             socket: socketIOClient('http://localhost:8081', { query: `token=${sessionStorage.getItem('token')}` }),
             content: '',
-            isRecipientTyping: false
         };
     }
 
@@ -27,7 +26,7 @@ class MessageForm extends Component {
         });
 
         this.state.socket.on('recipientTyping', () => {
-            if (!this.state.isRecipientTyping) {
+            if (!this.props.isRecipientTyping) {
                 this.props.setIsRecipientTyping(true);
 
                 setTimeout(() => {
@@ -43,7 +42,7 @@ class MessageForm extends Component {
         if (this.state.content.trim()) {
             const message = {
                 content: this.state.content,
-                recipient_id: this.props.recipient_id
+                recipient_id: this.props.recipient._id
             }
 
             this.state.socket.emit('sendMessage', message);
@@ -58,8 +57,8 @@ class MessageForm extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
-
-        this.state.socket.emit('typing', this.props.recipient_id);
+console.log(this.props)
+        this.state.socket.emit('typing', this.props.recipient._id);
     }
 
     render() {
@@ -81,12 +80,14 @@ class MessageForm extends Component {
 MessageForm.propTypes = {
     createMessage: PropTypes.func.isRequired,
     addNewRecipientMessage: PropTypes.func.isRequired,
-    recipient_id: PropTypes.string.isRequired,
-    setIsRecipientTyping: PropTypes.func.isRequired
+    recipient: PropTypes.object.isRequired,
+    setIsRecipientTyping: PropTypes.func.isRequired,
+    isRecipientTyping: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-    recipient_id: state.messages.recipient_id,
+    recipient: state.messages.recipient,
+    isRecipientTyping: state.messages.isRecipientTyping
 });
 
 export default connect(mapStateToProps, { createMessage, addNewRecipientMessage, setIsRecipientTyping })(MessageForm);

@@ -7,7 +7,7 @@ const initialState = {
     conversations: {
         items: []
     },
-    recipient_id: '',
+    recipient: {},
     isRecipientTyping: false
 };
 
@@ -37,7 +37,7 @@ export default function (state = initialState, action) {
         case SET_RECIPIENT:
             return {
                 ...state,
-                recipient_id: action.payload
+                recipient: action.payload
             };
 
         case NEW_RECIPIENT_MESSAGE:

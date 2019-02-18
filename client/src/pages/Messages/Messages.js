@@ -37,7 +37,7 @@ class MessagesPage extends Component {
                     </div>
                     <div className="col-lg-9">
                         <MessageList userMessages={this.props.userMessages} recipientMessages={this.props.recipientMessages} />
-                        {this.props.isRecipientTyping && <Message className="message__recipient" message={{ content: "Recipient is typing...", creationTime: "" }} />}
+                        {this.props.isRecipientTyping && <Message className="message__recipient" message={{ content: `${this.props.recipient.firstName} is typing...`, creationTime: "" }} />}
                     </div>
                 </div>
                 <MessageForm />
@@ -53,7 +53,8 @@ MessagesPage.propTypes = {
     conversations: PropTypes.array.isRequired,
     newMessage: PropTypes.object,
     newRecipientMessage: PropTypes.object,
-    isRecipientTyping: PropTypes.bool.isRequired
+    isRecipientTyping: PropTypes.bool.isRequired,
+    recipient: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -62,7 +63,8 @@ const mapStateToProps = state => ({
     conversations: state.messages.conversations.items,
     newMessage: state.messages.item,
     newRecipientMessage: state.messages.recipientItem,
-    isRecipientTyping: state.messages.isRecipientTyping
+    isRecipientTyping: state.messages.isRecipientTyping,
+    recipient: state.messages.recipient
 });
 
 export default connect(mapStateToProps, { fetchConversations })(MessagesPage);

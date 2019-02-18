@@ -126,10 +126,10 @@ export const createMessage = (message) => dispatch => {
     //     );
 }
 
-export const setRecipient = (recipient_id) => dispatch => {
+export const setRecipient = (recipient) => dispatch => {
     dispatch({
         type: SET_RECIPIENT,
-        payload: recipient_id
+        payload: recipient
     });
 }
 

@@ -9,20 +9,17 @@ import Conversation from '../Conversation/Conversation';
 import './ConversationList.css';
 
 class ConversationList extends Component {
-    getMessages = recipient_id => e => {
+    getMessages = recipient => e => {
         e.preventDefault();
-        this.setState({
-            recipient_id
-        });
 
-        this.props.setRecipient(recipient_id);
-        this.props.fetchMessages(recipient_id);
+        this.props.setRecipient(recipient);
+        this.props.fetchMessages(recipient._id);
     }
 
     renderConversationList() {
         return this.props.conversations.map((c, i) => {
             return (
-                <Conversation recipient={c.recipient} onClick={this.getMessages(c.recipient._id)} key={i} />
+                <Conversation recipient={c.recipient} onClick={this.getMessages(c.recipient)} key={i} />
             );
         });
     }

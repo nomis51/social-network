@@ -7,7 +7,8 @@ module.exports = class SocketIORoute {
         this.io = SocketIO(server);
 
         this.clients = new Map();
-        this.io.use(socketioAuth)
+        this.io.of('/messages')
+            .use(socketioAuth)
             .on('connection', (client) => {
                 console.log('Client connected');
                 this.clients.set(client.user_id, client);

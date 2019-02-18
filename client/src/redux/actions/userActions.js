@@ -1,5 +1,6 @@
 import { FETCH_FRIENDS } from './types';
 import { queryBuilder } from './../../helpers/queryBuilder';
+import { requestHandler } from '../../helpers/requestHandler';
 
 export const fetchFriends = () => dispatch => {
     const reqBody = queryBuilder(`
@@ -21,8 +22,9 @@ export const fetchFriends = () => dispatch => {
         }
     })
         .then(res => res.json())
-        .then(friendsData => dispatch({
-            type: FETCH_FRIENDS,
-            payload: friendsData.data.friends
-        }));
+        .then(friendsData =>
+            dispatch(
+                requestHandler(friendsData, FETCH_FRIENDS, "friends")
+            )
+        );
 };

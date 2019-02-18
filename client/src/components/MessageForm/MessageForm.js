@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import io from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 
 import { createMessage, addNewRecipientMessage } from '../../redux/actions/messageActions';
 
@@ -11,7 +11,7 @@ class MessageForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            socket: io('http://localhost:8081/messages', { query: `token=${sessionStorage.getItem('token')}` }),
+            socket: socketIOClient('http://localhost:8081', { query: `token=${sessionStorage.getItem('token')}` }),
             content: ''
         };
     }

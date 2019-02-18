@@ -11,10 +11,11 @@ export default function (state = initialState, action) {
             };
 
         case LOGOUT:
-            return {
-                ...state,
-                ...action.payload
+            const nextState = {
+                ...state
             };
+            delete nextState.token;
+            return nextState;
 
         default:
             return state;

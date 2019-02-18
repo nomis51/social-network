@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 const app = express();
 
 const dbConfig = require('./database/config');
@@ -14,9 +15,11 @@ const db = require('./database/db');
 const neoConfig = require('./database/config');
 db.connect(neoConfig.dev.url, neoConfig.dev.username, neoConfig.dev.password);
 
-router(app);
+const server = http.createServer(app);
 
-app.listen(PORT, HOST, (err) => {
+router(app, server);
+
+server.listen(PORT, HOST, (err) => {
     if (err) {
         console.err(err);
     }

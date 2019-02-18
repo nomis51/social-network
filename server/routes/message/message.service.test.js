@@ -1,4 +1,3 @@
-// const mongoose = require('mongoose');
 const messageService = require('./message.service');
 const userService = require('../user/user.service');
 const db = require('../../database/db');
@@ -25,8 +24,6 @@ beforeEach(() => {
                         creationTime: "2019-01-01 15:00:00"
                     }), 
                     (m2:Message {_id: "d", content: "This is another message", isDeleted: true, creationTime: "2019-01-01 15:05:00"}), 
-                    (m)<-[:WROTE]-(b), 
-                    (b)-[:WROTE]->(m2),
                     (j:User {
                         _id:"e",
                         firstName: "John",
@@ -34,7 +31,12 @@ beforeEach(() => {
                         email: "blingbling@gmail.com",
                         password: "${User.hashPassword('Bebling&123')}",
                         creationTime: "2015-05-05 15:15:15"
-                    })`)
+                    }),
+                    (m)<-[:WROTE]-(b), 
+                    (m)-[:DESTINATED_TO]->(j),
+                    (j)-[:WROTE]->(m2),
+                    (m2)-[:DESTINATED_TO]->(b)
+                    `)
                         .subscribe({
                             onCompleted: () => {
                                 session.close();
@@ -68,34 +70,52 @@ afterAll(() => {
 });
 
 
-test('getAll(): Should return an array of messages', () => {
+test('getAll(): Should return an object', () => {
     expect.assertions(1);
-    return messageService.getAll()
+    return messageService.getAll('', '')
         .then(data => {
-            expect(Array.isArray(data)).toBe(true);
+            expect(typeof (data)).toBe('object');
         });
 });
 
-test('getAll(): Array should contain message model with properties: content, creator, creationTime', () => {
+test('getAll(): Should two array props: userMessages and recipientMessages', () => {
     expect.assertions(4);
-    return messageService.getAll()
+    return messageService.getAll('', '')
         .then(data => {
-            const message = data[0];
+            expect(data.userMessages).toBeTruthy();
+            expect(data.recipientMessages).toBeTruthy();
+            expect(Array.isArray(data.userMessages)).toBe(true);
+            expect(Array.isArray(data.recipientMessages)).toBe(true);
+        });
+});
+
+test('getAll(): Should contain message model in userMessages and recipientMessages with properties: content,  creationTime', () => {
+    expect.assertions(6);
+    return messageService.getAll('c', 'e')
+        .then(data => {
+            const message = data.userMessages[0];
             expect(message.content).toBeTruthy();
-            expect(message.creator).toBeTruthy();
             expect(message.creationTime).toBeTruthy();
             expect(message.isDeleted).toBeUndefined();
+
+            const message2 = data.recipientMessages[0];
+            expect(message2.content).toBeTruthy();
+            expect(message2.creationTime).toBeTruthy();
+            expect(message2.isDeleted).toBeUndefined();
         });
 });
 
-test('getAll(): Array should contain message model with properties types: content (String), creator (User), creationTime (Date) ', () => {
-    expect.assertions(3);
-    return messageService.getAll()
+test('getAll(): Array should contain message model with properties types: content (String), creationTime (Date) ', () => {
+    expect.assertions(4);
+    return messageService.getAll('c', 'e')
         .then(data => {
-            const message = data[0];
+            const message = data.userMessages[0];
             expect(typeof message.content).toBe('string');
-            expect(typeof message.creator).toBe('object');
             expect(new Date(message.creationTime)).toBeTruthy();
+
+            const message2 = data.recipientMessages[0];
+            expect(typeof message2.content).toBe('string');
+            expect(new Date(message2.creationTime)).toBeTruthy();
         });
 });
 
@@ -159,14 +179,14 @@ test('get(): Should return an array of one object with query {content: \'This is
 });
 
 test('get(): Should return an array of two objects with query {creator: user(Bianca)}', () => {
-    expect.assertions(5);
+    expect.assertions(4);
     return userService.getOne({ firstName: 'Bianca' })
         .then(user => {
             expect(user).toBeDefined();
             expect(user).not.toBeNull();
             return messageService.get({ creator: user })
                 .then(data => {
-                    expect(data.length).toBe(2);
+                    expect(data.length).toBe(1);
 
                     for (let m of data) {
                         expect(m.creator._id).toEqual(user._id);
@@ -280,5 +300,49 @@ test('create(): Should create a message with content {content:"This is a new mes
                             expect(data2).not.toBeNull();
                         });
                 });
+        });
+});
+
+test('create(): Should not return a null object because recipient_id is not valid', () => {
+    expect.assertions(1);
+    return messageService.create('This a message with an invalid recipient_id', 'e', 'wrong id')
+        .then(data => {
+            expect(false).toBeTruthy();
+        })
+        .catch(err => {
+            expect(err).toBeTruthy();
+        });
+});
+
+test('getConversations(): Should return an array of conversations', () => {
+    expect.assertions(1);
+    return messageService.getConversations('c')
+        .then(data => {
+            expect(Array.isArray(data)).toBe(true);
+        });
+});
+
+test('getConversations(): Should contain object with the following props: recipient and user', () => {
+    expect.assertions(2);
+    return messageService.getConversations('c')
+        .then(data => {
+            const c = data[0];
+            expect(c.recipient).toBeTruthy();
+            expect(c.user).toBeTruthy();
+        });
+});
+
+test('getConversations(): Should not return a recipient more than once', () => {
+    expect.assertions(0);
+    return messageService.getConversations('c')
+        .then(data => {
+            let recipients = [];
+            for (let c of data) {
+                if (!recipients.includes(c.recipient._id)) {
+                    recipients.push(c.recipient._id);
+                } else {
+                    expect(0).toBe(1);
+                }
+            }
         });
 });

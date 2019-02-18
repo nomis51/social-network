@@ -1,0 +1,32 @@
+
+.message-form{
+    position:fixed;
+    bottom: 1rem;
+    left:25%;
+    width:50%;
+}
+
+.form-action button {
+    background-color: rgb(93, 202, 230);
+    font: inherit;
+    border: 1px solid rgb(93, 202, 230);
+    border-radius: 3px;
+    padding: 0.25rem 1rem;
+    margin-right: 1rem;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-action button:hover,
+.form-action button:active{
+    background-color: rgb(86, 167, 187);
+    border-color: rgb(86, 167, 187);
+}
+
+.form-element,
+.form-action{
+    width: 100%;
+    margin:0;
+    padding:0;
+}

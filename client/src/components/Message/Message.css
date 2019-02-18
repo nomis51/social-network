@@ -1,0 +1,37 @@
+.message{
+    list-style: none;
+    max-width: 10rem;
+    display: list-item;
+    clear:both;
+    border-radius: 20px;
+    padding: 0.1rem 0.5rem;
+    margin-bottom: 0.5rem;  
+}
+
+.message__user{
+    float: right;
+    clear:both;
+    border: 2px solid rgb(117, 175, 227);
+    background-color:  rgb(117, 175, 227);
+}
+
+.message__recipient{
+    float: left;
+    clear:both;
+     border: 2px solid rgb(233, 233, 233);
+    background-color: rgb(233, 233, 233)
+}
+
+.message-time{
+    font-size: xx-small;
+    position: relative;
+    top:10px;
+}
+
+ .message__recipient-time{
+    color:rgb(121, 114, 114);
+}
+
+ .message__user-time{
+    color:rgb(255, 255, 255);
+}

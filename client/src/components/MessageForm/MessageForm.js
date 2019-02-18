@@ -1,30 +1,60 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import socketIOClient from 'socket.io-client';
 
 import { createMessage } from '../../redux/actions/messageActions';
 
 import './MessageForm.css';
 
 class MessageForm extends Component {
-    onSubmit(e) {
-        e.preventDefault();
-        const message = {
-            content: this.state.content,
-            recipient_id: this.state.recipient_id
+    constructor(props) {
+        super(props);
+        this.state = {
+            socket: socketIOClient('http://localhost:8081', { query: `token=${localStorage.getItem('token')}` }),
+            content: ''
         };
+    }
 
-        this.props.createMessage(message);
+    componentDidMount() {
+        this.state.socket.on('sendMessage', (message) => {
+            this.props.createMessage(message);
+        });
+    }
+
+    submitMessage = (e) => {
+        e.preventDefault();
+
+        if (this.state.content.trim()) {
+            const message = {
+                content: this.state.content,
+                recipient_id: this.props.recipient_id
+            }
+
+            this.state.socket.emit('sendMessage', message);
+
+            this.setState({
+                content: ''
+            });
+        }
+    }
+
+    onChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
 
     render() {
         return (
-            <form className="message-form" onSubmit={this.onSubmit}>
-                <div className="form-control">
-                    <textarea name="content" />
-                </div>
-                <div class="form-action">
-                    <button type="submit">Send</button>
+            <form className="message-form" onSubmit={this.submitMessage}>
+                <div className="row">
+                    <div className="form-element col-lg-9">
+                        <input name="content" type="text" value={this.state.content} placeholder="Type your message here..." onChange={this.onChange} />
+                    </div>
+                    <div className="form-action col-lg-3">
+                        <button type="submit">Send</button>
+                    </div>
                 </div>
             </form>
         );
@@ -32,7 +62,12 @@ class MessageForm extends Component {
 }
 
 MessageForm.propTypes = {
-    createMessage: PropTypes.func.isRequired
+    createMessage: PropTypes.func.isRequired,
+    recipient_id: PropTypes.string.isRequired,
 };
 
-export default connect(null, { createMessage })(MessageForm);
+const mapStateToProps = state => ({
+    recipient_id: state.messages.recipient_id,
+});
+
+export default connect(mapStateToProps, { createMessage })(MessageForm);

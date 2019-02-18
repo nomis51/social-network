@@ -2,43 +2,56 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { fetchMessages } from '../../redux/actions/messageActions';
+import { fetchConversations } from '../../redux/actions/messageActions';
 
 import './Messages.css';
 
+import MessageList from '../../components/MessageList/MessageList';
+import ConversationList from '../../components/ConversationList/ConversationList';
+import MessageForm from '../../components/MessageForm/MessageForm';
+
 class MessagesPage extends Component {
     componentWillMount() {
-        this.props.fetchMessages();
+        this.props.fetchConversations();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps) {
-            this.props.messages.unshift(nextProps.message);
+        if (nextProps && nextProps.newMessage && Object.keys(nextProps.newMessage).length !== 0) {
+            this.props.userMessages.push(nextProps.newMessage);
         }
     }
 
     render() {
-        const messages = this.props.messages.map(message => {
-            return (
-                <div className="message">
-                    <p>{messages.content}</p>
-                </div>
-            );
-        });
-
         return (
-            { messages }
+            <React.Fragment>
+                <div className="messages row">
+                    <div className="col-lg-3">
+                        <h3>Conversations</h3>
+                        <ConversationList conversation={this.props.conversations} />
+                    </div>
+                    <div className="col-lg-9">
+                        <h3>Messages</h3>
+                        <MessageList userMessages={this.props.userMessages} recipientMessages={this.props.recipientMessages} />
+                    </div>
+                </div>
+                <MessageForm />
+            </React.Fragment>
         );
     }
 }
 
 MessagesPage.propTypes = {
-    fetchMessages: PropTypes.func.isRequired,
-    messages: PropTypes.array.isRequired
+    fetchConversations: PropTypes.func.isRequired,
+    userMessages: PropTypes.array,
+    recipientMessages: PropTypes.array,
+    conversations: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = state => ({
-    messages: state.items
+    userMessages: state.messages.userMessages,
+    recipientMessages: state.messages.recipientMessages,
+    conversations: state.messages.conversations.items,
+    newMessage: state.messages.item,
 });
 
-export default connect(mapStateToProps, { fetchMessages })(MessagesPage);
+export default connect(mapStateToProps, { fetchConversations })(MessagesPage);

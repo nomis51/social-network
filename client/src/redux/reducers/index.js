@@ -9,5 +9,5 @@ export default combineReducers({
     messages: messageReducer,
     posts: postReducer,
     auth: authReducer,
-    users: userReducer
+    users: userReducer,
 });

@@ -1,7 +1,12 @@
 export const FETCH_MESSAGES = 'FETCH_MESSAGES';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
+export const NEW_RECIPIENT_MESSAGE = 'NEW_RECIPIENT_MESSAGE';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const NEW_POST = 'NEW_POST';
 export const FETCH_FRIENDS = 'FETCH_FRIENDS';
+export const FETCH_CONVERSATIONS = 'FETCH_CONVERSATIONS';
+export const SET_RECIPIENT = 'SET_RECIPIENT';
+export const CONNECTION = 'CONNECTION';
+export const DISCONNECTION = 'DISCONNECTION';

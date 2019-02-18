@@ -7,7 +7,16 @@ module.exports = {
             content: String!
             creator: User!
             creationTime: String!
-            isDeleted: Boolean
+        }
+            
+        type Conversation {
+            recipient: User!
+            user: User!
+        }
+
+        type ConversationMessages {
+            userMessages: [Message!]!
+            recipientMessages: [Message!]!
         }
     `,
     inputs: `
@@ -17,7 +26,8 @@ module.exports = {
         }
     `,
     queries: `
-        messages: [Message!]!
+        messages(recipient_id: String!): ConversationMessages!,
+        conversations: [Conversation!]!
     `,
     mutations: `
         createMessage(messageInput: MessageInput!): Message
@@ -28,7 +38,10 @@ module.exports = {
                 throw new Error('Unauthenticated');
             }
 
-            return await messageService.getAll();
+            const { recipient_id } = args;
+            const { user_id } = req;
+
+            return await messageService.getAll(recipient_id, user_id);
         },
         createMessage: async (args, req) => {
             if (!req.isAuthenticated) {
@@ -37,6 +50,14 @@ module.exports = {
 
             const { content, recipient_id } = args.messageInput;
             return await messageService.create(content, req.user_id, recipient_id);
+        },
+        conversations: async (args, req) => {
+            if (!req.isAuthenticated) {
+                throw new Error('Unauthenticated');
+            }
+
+            const { user_id } = req;
+            return await messageService.getConversations(user_id);
         }
     }
 };

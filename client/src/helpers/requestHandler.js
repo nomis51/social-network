@@ -10,9 +10,7 @@ export const requestHandler = (res, type, requestName) => {
             localStorage.removeItem('token');
             return {
                 type: LOGOUT,
-                payload: {
-                    token: null
-                }
+                payload: {}
             };
         } else {
             throw new Error('Invalid request response');

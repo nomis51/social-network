@@ -13,7 +13,7 @@ class PostsPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps) {
+        if (nextProps && nextProps.newPost && Object.keys(nextProps.newPost).length !== 0) {
             this.props.posts.unshift(nextProps.newPost);
         }
     }

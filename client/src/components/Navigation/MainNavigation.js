@@ -11,7 +11,6 @@ class MainNavigation extends Component {
 
     render() {
         return (
-            <React.Fragment>
                 <header className="main-navigation">
                     <div className="main-navigation__logo">
                         <h1>Social Network</h1>
@@ -40,7 +39,6 @@ class MainNavigation extends Component {
                         </ul>
                     </nav>
                 </header>
-            </React.Fragment>
         );
     }
 }

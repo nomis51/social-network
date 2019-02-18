@@ -30,6 +30,7 @@ class ConversationList extends Component {
     render() {
         return (
             <div className="conversation-list">
+                <h3>Conversations</h3>
                 {this.renderConversationList()}
             </div>
         );

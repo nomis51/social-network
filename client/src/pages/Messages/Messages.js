@@ -32,11 +32,10 @@ class MessagesPage extends Component {
             <React.Fragment>
                 <div className="messages row">
                     <div className="col-lg-3">
-                        <h3>Conversations</h3>
+                       
                         <ConversationList conversation={this.props.conversations} />
                     </div>
                     <div className="col-lg-9">
-                        <h3>Messages</h3>
                         <MessageList userMessages={this.props.userMessages} recipientMessages={this.props.recipientMessages} />
                     </div>
                 </div>

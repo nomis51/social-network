@@ -30,6 +30,14 @@ module.exports = class SocketIORoute {
                             }
                         });
                 });
+
+                client.on('typing', (recipient_id) => {
+                    const recipient = this.clients.get(recipient_id);
+
+                    if (recipient) {
+                        recipient.emit('recipientTyping');
+                    }
+                });
             });
     }
 }

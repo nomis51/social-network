@@ -1,4 +1,4 @@
-import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS, SET_RECIPIENT, NEW_RECIPIENT_MESSAGE } from './types';
+import { FETCH_MESSAGES, NEW_MESSAGE, FETCH_CONVERSATIONS, SET_RECIPIENT, NEW_RECIPIENT_MESSAGE, RECIPIENT_IS_TYPING } from './types';
 import { queryBuilder } from '../../helpers/queryBuilder';
 import { requestHandler } from '../../helpers/requestHandler';
 import socketIOClient from 'socket.io-client';
@@ -70,6 +70,13 @@ export const fetchMessages = (recipient_id) => dispatch => {
                 requestHandler(messages, FETCH_MESSAGES, 'messages')
             )
         );
+}
+
+export const setIsRecipientTyping = (isTyping) => dispatch => {
+    dispatch({
+        type: RECIPIENT_IS_TYPING,
+        payload: isTyping
+    })
 }
 
 export const addNewRecipientMessage = (message) => dispatch => {

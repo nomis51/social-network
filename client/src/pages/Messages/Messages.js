@@ -9,6 +9,7 @@ import './Messages.css';
 import MessageList from '../../components/MessageList/MessageList';
 import ConversationList from '../../components/ConversationList/ConversationList';
 import MessageForm from '../../components/MessageForm/MessageForm';
+import Message from '../../components/Message/Message';
 
 class MessagesPage extends Component {
     componentWillMount() {
@@ -32,11 +33,11 @@ class MessagesPage extends Component {
             <React.Fragment>
                 <div className="messages row">
                     <div className="col-lg-3">
-                       
                         <ConversationList conversation={this.props.conversations} />
                     </div>
                     <div className="col-lg-9">
                         <MessageList userMessages={this.props.userMessages} recipientMessages={this.props.recipientMessages} />
+                        {this.props.isRecipientTyping && <Message className="message__recipient" message={{ content: "Recipient is typing...", creationTime: "" }} />}
                     </div>
                 </div>
                 <MessageForm />
@@ -51,7 +52,8 @@ MessagesPage.propTypes = {
     recipientMessages: PropTypes.array,
     conversations: PropTypes.array.isRequired,
     newMessage: PropTypes.object,
-    newRecipientMessage: PropTypes.object
+    newRecipientMessage: PropTypes.object,
+    isRecipientTyping: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -59,7 +61,8 @@ const mapStateToProps = state => ({
     recipientMessages: state.messages.recipientMessages,
     conversations: state.messages.conversations.items,
     newMessage: state.messages.item,
-    newRecipientMessage: state.messages.recipientItem
+    newRecipientMessage: state.messages.recipientItem,
+    isRecipientTyping: state.messages.isRecipientTyping
 });
 
 export default connect(mapStateToProps, { fetchConversations })(MessagesPage);

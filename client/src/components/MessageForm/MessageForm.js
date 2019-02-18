@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import socketIOClient from 'socket.io-client';
 
-import { createMessage, addNewRecipientMessage } from '../../redux/actions/messageActions';
+import { createMessage, addNewRecipientMessage, setIsRecipientTyping } from '../../redux/actions/messageActions';
 
 import './MessageForm.css';
 
@@ -12,7 +12,8 @@ class MessageForm extends Component {
         super(props);
         this.state = {
             socket: socketIOClient('http://localhost:8081', { query: `token=${sessionStorage.getItem('token')}` }),
-            content: ''
+            content: '',
+            isRecipientTyping: false
         };
     }
 
@@ -23,6 +24,16 @@ class MessageForm extends Component {
 
         this.state.socket.on('newMessage', (message) => {
             this.props.addNewRecipientMessage(message);
+        });
+
+        this.state.socket.on('recipientTyping', () => {
+            if (!this.state.isRecipientTyping) {
+                this.props.setIsRecipientTyping(true);
+
+                setTimeout(() => {
+                    this.props.setIsRecipientTyping(false);
+                }, 3000);
+            }
         });
     }
 
@@ -47,6 +58,8 @@ class MessageForm extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+
+        this.state.socket.emit('typing', this.props.recipient_id);
     }
 
     render() {
@@ -69,10 +82,11 @@ MessageForm.propTypes = {
     createMessage: PropTypes.func.isRequired,
     addNewRecipientMessage: PropTypes.func.isRequired,
     recipient_id: PropTypes.string.isRequired,
+    setIsRecipientTyping: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     recipient_id: state.messages.recipient_id,
 });
 
-export default connect(mapStateToProps, { createMessage, addNewRecipientMessage })(MessageForm);
+export default connect(mapStateToProps, { createMessage, addNewRecipientMessage, setIsRecipientTyping })(MessageForm);

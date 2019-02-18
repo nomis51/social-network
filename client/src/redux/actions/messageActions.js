@@ -72,6 +72,13 @@ export const fetchMessages = (recipient_id) => dispatch => {
         );
 }
 
+export const addNewRecipientMessage = (message) => dispatch => {
+    dispatch({
+        type: NEW_RECIPIENT_MESSAGE,
+        payload: message
+    });
+}
+
 export const createMessage = (message) => dispatch => {
     dispatch({
         type: NEW_MESSAGE,

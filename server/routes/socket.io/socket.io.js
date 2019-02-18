@@ -6,15 +6,15 @@ module.exports = class SocketIORoute {
     constructor(server) {
         this.io = SocketIO(server);
 
-        this.clients = [];
+        this.clients = new Map();
         this.io.use(socketioAuth)
             .on('connection', (client) => {
                 console.log('Client connected');
-                this.clients.push(client);
+                this.clients.set(client.user_id, client);
 
                 client.on('disconnect', () => {
                     console.log('Client disconnected');
-                    this.clients.slice(this.clients.indexOf(client), 1);
+                    this.clients.delete(client.user_id);
                 });
 
                 //** Message **//
@@ -23,6 +23,11 @@ module.exports = class SocketIORoute {
                     messageService.create(content, client.user_id, recipient_id)
                         .then(createdMessage => {
                             client.emit('sendMessage', createdMessage);
+                            const recipient = this.clients.get(recipient_id);
+
+                            if (recipient) {
+                                recipient.emit('newMessage', createdMessage);
+                            }
                         });
                 });
             });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import socketIOClient from 'socket.io-client';
 
-import { createMessage } from '../../redux/actions/messageActions';
+import { createMessage, addNewRecipientMessage } from '../../redux/actions/messageActions';
 
 import './MessageForm.css';
 
@@ -11,7 +11,7 @@ class MessageForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            socket: socketIOClient('http://localhost:8081', { query: `token=${localStorage.getItem('token')}` }),
+            socket: socketIOClient('http://localhost:8081', { query: `token=${sessionStorage.getItem('token')}` }),
             content: ''
         };
     }
@@ -19,6 +19,10 @@ class MessageForm extends Component {
     componentDidMount() {
         this.state.socket.on('sendMessage', (message) => {
             this.props.createMessage(message);
+        });
+
+        this.state.socket.on('newMessage', (message) => {
+            this.props.addNewRecipientMessage(message);
         });
     }
 
@@ -63,6 +67,7 @@ class MessageForm extends Component {
 
 MessageForm.propTypes = {
     createMessage: PropTypes.func.isRequired,
+    addNewRecipientMessage: PropTypes.func.isRequired,
     recipient_id: PropTypes.string.isRequired,
 };
 
@@ -70,4 +75,4 @@ const mapStateToProps = state => ({
     recipient_id: state.messages.recipient_id,
 });
 
-export default connect(mapStateToProps, { createMessage })(MessageForm);
+export default connect(mapStateToProps, { createMessage, addNewRecipientMessage })(MessageForm);

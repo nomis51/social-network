@@ -16,8 +16,14 @@ class MessagesPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps && nextProps.newMessage && Object.keys(nextProps.newMessage).length !== 0) {
-            this.props.userMessages.push(nextProps.newMessage);
+        if (nextProps) {
+            if (nextProps.newMessage && Object.keys(nextProps.newMessage).length !== 0) {
+                this.props.userMessages.push(nextProps.newMessage);
+            }
+
+            if (nextProps.newRecipientMessage && Object.keys(nextProps.newRecipientMessage).length !== 0) {
+                this.props.recipientMessages.push(nextProps.newRecipientMessage);
+            }
         }
     }
 
@@ -45,6 +51,8 @@ MessagesPage.propTypes = {
     userMessages: PropTypes.array,
     recipientMessages: PropTypes.array,
     conversations: PropTypes.array.isRequired,
+    newMessage: PropTypes.object,
+    newRecipientMessage: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -52,6 +60,7 @@ const mapStateToProps = state => ({
     recipientMessages: state.messages.recipientMessages,
     conversations: state.messages.conversations.items,
     newMessage: state.messages.item,
+    newRecipientMessage: state.messages.recipientItem
 });
 
 export default connect(mapStateToProps, { fetchConversations })(MessagesPage);

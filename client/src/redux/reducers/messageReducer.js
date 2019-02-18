@@ -21,7 +21,8 @@ export default function (state = initialState, action) {
         case NEW_MESSAGE:
             return {
                 ...state,
-                item: action.payload
+                item: action.payload,
+                recipientItem: {}
             };
 
         case FETCH_CONVERSATIONS:
@@ -41,7 +42,8 @@ export default function (state = initialState, action) {
         case NEW_RECIPIENT_MESSAGE:
             return {
                 ...state,
-                recipientItem: action.payload
+                recipientItem: action.payload,
+                item: {}
             };
 
         default:

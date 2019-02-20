@@ -29,6 +29,7 @@
 }
 
 .friend img {
+    display: inline-block;
     vertical-align: middle;
     width: 2rem;
 }
@@ -37,4 +38,13 @@
     display: inline-block;
     vertical-align: middle;
     margin-left: 1rem;
+}
+
+.online-dot{
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: limegreen;
+    display: inline-block;
+    vertical-align: middle;
 }
